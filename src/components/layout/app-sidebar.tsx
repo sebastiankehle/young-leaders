@@ -419,23 +419,23 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
       <SidebarFooter className="flex flex-col">
         {isAdmin && (
           <SidebarMenu>
-            <SidebarMenuItem>
+            <SidebarMenuItem className="flex items-center gap-2">
               <SidebarMenuButton
                 tooltip={isAdminView ? adminViewLabel : userViewLabel}
                 onClick={() => setIsAdminView(!isAdminView)}
+                className="flex-1"
               >
                 <IconSwitch3 className="size-4" />
                 <span>{isAdminView ? adminViewLabel : userViewLabel}</span>
-                <span className="ml-auto group-data-[collapsible=icon]:hidden">
-                  <Switch
-                    checked={isAdminView}
-                    onCheckedChange={setIsAdminView}
-                    onClick={(e) => e.stopPropagation()}
-                    aria-label="Toggle admin view"
-                    className="data-[state=checked]:bg-primary"
-                  />
-                </span>
               </SidebarMenuButton>
+              <div className="pr-2 group-data-[collapsible=icon]:hidden">
+                <Switch
+                  checked={isAdminView}
+                  onCheckedChange={setIsAdminView}
+                  aria-label="Toggle admin view"
+                  className="data-[state=checked]:bg-primary"
+                />
+              </div>
             </SidebarMenuItem>
           </SidebarMenu>
         )}
