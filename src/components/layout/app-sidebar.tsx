@@ -51,7 +51,7 @@ const data: {
       icon: IconCalendarEvent,
       children: [
         {
-          title: "Current",
+          title: "Current Events",
           url: "/events/current",
           icon: IconClock,
         },
@@ -174,8 +174,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
       bankingDetails?: string;
       driverInfo?: string;
       // Events section
-      upcoming?: string;
-      current?: string;
+      currentEvents?: string;
       pastEvents?: string;
       // Applications section
       currentApplications?: string;
@@ -239,7 +238,7 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
           icon: IconCalendarEvent,
           children: [
             {
-              title: dict.navigation.current || "Current",
+              title: dict.navigation.currentEvents || "Current Events",
               url: `/${lang}/events/current`,
               icon: IconClock,
             },

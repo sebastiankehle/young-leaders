@@ -12,7 +12,7 @@ export default async function CurrentEventsPage({
   return (
     <>
       <h1 className="text-2xl font-bold">
-        {dict.navigation.current || "Current Events"}
+        {dict.navigation.currentEvents || "Current Events"}
       </h1>
       <p className="text-muted-foreground mt-4">
         {dict.pageDescriptions.currentEvents}
