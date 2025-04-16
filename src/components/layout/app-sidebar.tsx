@@ -4,7 +4,6 @@ import React from "react";
 import {
   IconCalendarEvent,
   IconDashboard,
-  IconInnerShadowTop,
   IconSettings,
   IconUser,
   IconCalendar,
@@ -22,6 +21,7 @@ import {
 } from "@tabler/icons-react";
 import { Locale } from "@/app/[lang]/dictionaries";
 import { createClient } from "@/lib/supabase/client";
+import Image from "next/image";
 
 import { NavItem, NavMain } from "@/components/layout/nav-main";
 import { NavUser } from "@/components/layout/nav-user";
@@ -280,7 +280,13 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href={lang ? `/${lang}/dashboard` : "/dashboard"}>
-                <IconInnerShadowTop className="!size-5" />
+                <Image
+                  src="/images/yl_vektor.png"
+                  alt="Young Leaders Logo"
+                  width={20}
+                  height={20}
+                  className="object-contain"
+                />
                 <span className="text-base font-semibold">young leaders</span>
               </a>
             </SidebarMenuButton>
