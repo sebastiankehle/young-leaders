@@ -15,10 +15,17 @@ interface WorldTimeResponse {
 
 export function ServerTime({ lang }: ServerTimeProps) {
   const [time, setTime] = useState<string>("--:--:--");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [isClient, setIsClient] = useState<boolean>(false);
   const dateRef = useRef<Date | null>(null);
 
+  // Use useEffect to mark component as client-rendered
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     // Function to fetch time from WorldTimeAPI for Europe/Berlin
     const fetchTime = async () => {
       try {
@@ -34,16 +41,11 @@ export function ServerTime({ lang }: ServerTimeProps) {
 
         // Format and display
         updateDisplay();
-        setLoading(false);
 
         return true;
       } catch (error) {
         console.error("Error fetching time:", error);
-        // On first load, show error state if we can't get the time
-        if (loading) {
-          setTime("Error");
-          setLoading(false);
-        }
+        setTime("Error");
         return false;
       }
     };
@@ -92,9 +94,10 @@ export function ServerTime({ lang }: ServerTimeProps) {
       clearInterval(secondIntervalId);
       clearInterval(fetchIntervalId);
     };
-  }, [lang]);
+  }, [lang, isClient]);
 
-  return loading ? null : (
+  // Always render the same structure for server and client
+  return (
     <div className="text-muted-foreground text-sm" title="Berlin Time">
       {time}
     </div>

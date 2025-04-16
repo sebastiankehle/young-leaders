@@ -28,7 +28,6 @@ import {
   type Icon,
 } from "@tabler/icons-react";
 import { Locale } from "@/app/[lang]/dictionaries";
-import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
 import { NavItem, NavGroup } from "@/components/layout/nav-group";
@@ -322,7 +321,6 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
   const [userData, setUserData] = React.useState({
     name: "",
     email: "",
-    avatar: "/avatars/default.jpg",
     role: "" as UserRole,
     id: "",
   });
@@ -333,18 +331,9 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
     const user = await getCurrentUser();
 
     if (user) {
-      // Get user profile data from Supabase for name and avatar
-      const supabase = createClient();
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("full_name, avatar_url")
-        .eq("id", user.id)
-        .single();
-
       setUserData({
-        name: profile?.full_name || user.email?.split("@")[0] || "User",
+        name: user.email?.split("@")[0] || "User",
         email: user.email || "",
-        avatar: profile?.avatar_url || "/avatars/default.jpg",
         role: user.role || "user", // Now using the role from getCurrentUser
         id: user.id,
       });
