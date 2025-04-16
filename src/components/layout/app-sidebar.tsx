@@ -418,21 +418,26 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
       </SidebarContent>
       <SidebarFooter className="flex flex-col">
         {isAdmin && (
-          <div className="border-border mb-4 border-t px-4 pt-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <IconSwitch3 className="h-5 w-5" />
-                <span className="text-sm">
-                  {isAdminView ? adminViewLabel : userViewLabel}
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton
+                tooltip={isAdminView ? adminViewLabel : userViewLabel}
+                onClick={() => setIsAdminView(!isAdminView)}
+              >
+                <IconSwitch3 className="size-4" />
+                <span>{isAdminView ? adminViewLabel : userViewLabel}</span>
+                <span className="ml-auto group-data-[collapsible=icon]:hidden">
+                  <Switch
+                    checked={isAdminView}
+                    onCheckedChange={setIsAdminView}
+                    onClick={(e) => e.stopPropagation()}
+                    aria-label="Toggle admin view"
+                    className="data-[state=checked]:bg-primary"
+                  />
                 </span>
-              </div>
-              <Switch
-                checked={isAdminView}
-                onCheckedChange={setIsAdminView}
-                aria-label="Toggle admin view"
-              />
-            </div>
-          </div>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         )}
         <NavUser user={userData} dict={dict?.user} lang={lang} />
       </SidebarFooter>
