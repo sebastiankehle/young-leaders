@@ -64,8 +64,8 @@ function SubmenuItem({ item }: { item: NavItem }) {
   const router = useRouter();
   const { state: sidebarState } = useSidebar();
 
-  // Always start with submenus open by default
-  const [isOpen, setIsOpen] = useState(true);
+  // Start with submenus collapsed by default
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleItemClick = () => {
     router.push(item.url);
@@ -114,7 +114,7 @@ function SubmenuItem({ item }: { item: NavItem }) {
 
       {/* Only show submenu content if sidebar is expanded and the menu is open */}
       {isOpen && !isSidebarCollapsed && filteredChildren && (
-        <div className="border-border mt-1 ml-7 flex flex-col gap-1 border-l pl-2">
+        <div className="border-border mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
           {filteredChildren.map((child) =>
             child.children ? (
               <NestedSubmenuItem key={child.title} item={child} />
@@ -139,8 +139,8 @@ function NestedSubmenuItem({ item }: { item: NavItem }) {
   const router = useRouter();
   const { state: sidebarState } = useSidebar();
 
-  // Always start with submenus open by default
-  const [isOpen, setIsOpen] = useState(true);
+  // Start with nested submenus closed by default
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleItemClick = () => {
     router.push(item.url);
@@ -187,7 +187,7 @@ function NestedSubmenuItem({ item }: { item: NavItem }) {
 
       {/* Only show submenu content if sidebar is expanded and the menu is open */}
       {isOpen && !isSidebarCollapsed && filteredChildren && (
-        <div className="border-border mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
+        <div className="border-border mt-1 ml-2 flex flex-col gap-1 border-l pl-2">
           {filteredChildren.map((child) => (
             <Link
               key={child.title}
