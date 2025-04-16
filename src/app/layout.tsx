@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "young yeaders",
+  title: "young leaders",
   description: "young leaders Application",
 };
 

@@ -20,7 +20,8 @@ function getLocale(request: NextRequest): Locale {
   try {
     const negotiatorHeaders = { "accept-language": acceptLanguage };
     languages = new Negotiator({ headers: negotiatorHeaders }).languages();
-  } catch (e) {
+  } catch (error) {
+    console.error(error);
     // Fallback if negotiator fails
     languages = [defaultLocale];
   }

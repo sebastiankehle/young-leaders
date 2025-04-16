@@ -5,24 +5,16 @@ import { type Icon } from "@tabler/icons-react";
 import { IconMoon, IconSun, IconLanguage } from "@tabler/icons-react";
 import { useTheme } from "next-themes";
 import { usePathname, useRouter } from "next/navigation";
-import { locales } from "@/middleware";
 import { Locale } from "@/app/[lang]/dictionaries";
 
 import {
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 interface NavSecondaryProps {
   items: {
@@ -34,6 +26,7 @@ interface NavSecondaryProps {
   themeLabel?: string;
   languageLabel?: string;
   currentLang?: Locale;
+  label?: string;
 }
 
 export function NavSecondary({
@@ -42,6 +35,7 @@ export function NavSecondary({
   themeLabel = "Theme",
   languageLabel = "Language",
   currentLang = "en",
+  label = "Preferences",
 }: NavSecondaryProps) {
   const { theme, setTheme } = useTheme();
   const router = useRouter();
@@ -73,13 +67,14 @@ export function NavSecondary({
 
   return (
     <SidebarGroup className={className}>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <a href={item.url}>
-                  <item.icon />
+                <a href={item.url} className="flex items-center gap-2">
+                  <item.icon className="size-4" />
                   <span>{item.title}</span>
                 </a>
               </SidebarMenuButton>
@@ -88,8 +83,10 @@ export function NavSecondary({
           {/* Theme Toggle */}
           <SidebarMenuItem>
             <SidebarMenuButton onClick={toggleTheme} className="cursor-pointer">
-              <ThemeIcon className="size-4" />
-              <span>{themeLabel}</span>
+              <div className="flex items-center gap-2">
+                <ThemeIcon className="size-4" />
+                <span>{themeLabel}</span>
+              </div>
             </SidebarMenuButton>
           </SidebarMenuItem>
           {/* Language Toggle */}
@@ -98,8 +95,10 @@ export function NavSecondary({
               onClick={toggleLanguage}
               className="cursor-pointer"
             >
-              <IconLanguage className="size-4" />
-              <span>{languageLabel}</span>
+              <div className="flex items-center gap-2">
+                <IconLanguage className="size-4" />
+                <span>{languageLabel}</span>
+              </div>
               <span className="ml-auto text-xs font-medium uppercase">
                 {currentLang}
               </span>
