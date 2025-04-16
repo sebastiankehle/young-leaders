@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { type Icon } from "@tabler/icons-react";
 import { IconChevronDown } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 
 import {
@@ -32,6 +32,21 @@ export function NavGroup({
   items: NavItem[];
   label?: string;
 }) {
+  const pathname = usePathname();
+
+  // Helper function to check if a path is active
+  const isActive = (url: string) => {
+    // Remove lang prefix from pathname for comparison
+    const normalizedPathname = pathname.replace(/^\/[a-z]{2}\//, "/");
+    const normalizedUrl = url.replace(/^\/[a-z]{2}\//, "/");
+
+    // Check if the path is exact match or starts with the URL (for parent routes)
+    return (
+      normalizedPathname === normalizedUrl ||
+      (normalizedUrl !== "/" && normalizedPathname.startsWith(normalizedUrl))
+    );
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{label}</SidebarGroupLabel>
@@ -40,12 +55,19 @@ export function NavGroup({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               {item.children ? (
-                <SubmenuItem key={item.url} item={item} />
+                <SubmenuItem key={item.url} item={item} isActive={isActive} />
               ) : (
-                <SidebarMenuButton asChild tooltip={item.title}>
+                <SidebarMenuButton
+                  asChild
+                  tooltip={item.title}
+                  isActive={isActive(item.url)}
+                >
                   <Link
                     href={item.url}
-                    className="flex cursor-pointer items-center gap-2"
+                    className={cn(
+                      "flex cursor-pointer items-center gap-2",
+                      isActive(item.url) && "font-medium",
+                    )}
                   >
                     {item.icon && <item.icon className="size-4" />}
                     <span>{item.title}</span>
@@ -60,12 +82,35 @@ export function NavGroup({
   );
 }
 
-function SubmenuItem({ item }: { item: NavItem }) {
+function SubmenuItem({
+  item,
+  isActive,
+}: {
+  item: NavItem;
+  isActive: (url: string) => boolean;
+}) {
   const router = useRouter();
   const { state: sidebarState } = useSidebar();
+  const pathname = usePathname();
 
-  // Start with submenus collapsed by default
-  const [isOpen, setIsOpen] = useState(false);
+  // Check if this item or any of its children are active
+  const isItemActive = isActive(item.url);
+  const isAnyChildActive = item.children?.some(
+    (child) =>
+      isActive(child.url) ||
+      child.children?.some((grandchild) => isActive(grandchild.url)),
+  );
+
+  // Start with submenus expanded if they contain the active item
+  const [isOpen, setIsOpen] = useState(isAnyChildActive);
+
+  // Re-check active state when pathname changes
+  useEffect(() => {
+    const shouldBeOpen = isAnyChildActive;
+    if (shouldBeOpen && !isOpen) {
+      setIsOpen(true);
+    }
+  }, [pathname, isAnyChildActive, isOpen]);
 
   const handleItemClick = () => {
     router.push(item.url);
@@ -87,9 +132,16 @@ function SubmenuItem({ item }: { item: NavItem }) {
 
   return (
     <>
-      <SidebarMenuButton tooltip={item.title} className="justify-between">
+      <SidebarMenuButton
+        tooltip={item.title}
+        className="justify-between"
+        isActive={isItemActive || isAnyChildActive}
+      >
         <div
-          className="flex flex-1 cursor-pointer items-center gap-2"
+          className={cn(
+            "flex flex-1 cursor-pointer items-center gap-2",
+            (isItemActive || isAnyChildActive) && "font-medium",
+          )}
           onClick={handleItemClick}
         >
           {item.icon && <item.icon className="size-4" />}
@@ -117,12 +169,20 @@ function SubmenuItem({ item }: { item: NavItem }) {
         <div className="border-border mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
           {filteredChildren.map((child) =>
             child.children ? (
-              <NestedSubmenuItem key={child.title} item={child} />
+              <NestedSubmenuItem
+                key={child.title}
+                item={child}
+                isActive={isActive}
+              />
             ) : (
               <Link
                 key={child.title}
                 href={child.url}
-                className="text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-sm"
+                className={cn(
+                  "text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-sm",
+                  isActive(child.url) &&
+                    "bg-accent text-accent-foreground font-medium",
+                )}
               >
                 {child.icon && <child.icon className="size-3.5" />}
                 <span>{child.title}</span>
@@ -135,12 +195,31 @@ function SubmenuItem({ item }: { item: NavItem }) {
   );
 }
 
-function NestedSubmenuItem({ item }: { item: NavItem }) {
+function NestedSubmenuItem({
+  item,
+  isActive,
+}: {
+  item: NavItem;
+  isActive: (url: string) => boolean;
+}) {
   const router = useRouter();
   const { state: sidebarState } = useSidebar();
+  const pathname = usePathname();
 
-  // Start with nested submenus closed by default
-  const [isOpen, setIsOpen] = useState(false);
+  // Check if this item or any of its children are active
+  const isItemActive = isActive(item.url);
+  const isAnyChildActive = item.children?.some((child) => isActive(child.url));
+
+  // Start with nested submenus expanded if they contain the active item
+  const [isOpen, setIsOpen] = useState(isAnyChildActive);
+
+  // Re-check active state when pathname changes
+  useEffect(() => {
+    const shouldBeOpen = isAnyChildActive;
+    if (shouldBeOpen && !isOpen) {
+      setIsOpen(true);
+    }
+  }, [pathname, isAnyChildActive, isOpen]);
 
   const handleItemClick = () => {
     router.push(item.url);
@@ -161,7 +240,11 @@ function NestedSubmenuItem({ item }: { item: NavItem }) {
   return (
     <div className="mb-1">
       <div
-        className="text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center justify-between rounded-md px-2 py-1.5 text-sm"
+        className={cn(
+          "text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center justify-between rounded-md px-2 py-1.5 text-sm",
+          (isItemActive || isAnyChildActive) &&
+            "bg-accent text-accent-foreground font-medium",
+        )}
         onClick={handleItemClick}
       >
         <div className="flex items-center gap-2">
@@ -192,7 +275,11 @@ function NestedSubmenuItem({ item }: { item: NavItem }) {
             <Link
               key={child.title}
               href={child.url}
-              className="text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-sm"
+              className={cn(
+                "text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-sm",
+                isActive(child.url) &&
+                  "bg-accent text-accent-foreground font-medium",
+              )}
             >
               {child.icon && <child.icon className="size-3.5" />}
               <span>{child.title}</span>
