@@ -46,6 +46,7 @@ This document outlines the database schema for migrating from NestJS to Supabase
   - hasDriverLicense (boolean, default: false) <!-- Frontend: Toggle/Switch -->
   - driverLicenseNumber (string) <!-- Frontend: Text input with conditional display (if hasDriverLicense is true) -->
   - driverLicenseClass (string) <!-- Frontend: Dropdown with license class options, conditional display -->
+  - role (string, default: "user") <!-- Frontend: Dropdown with role options (user, teamer, admin) -->
 
 ### 2. events
 
@@ -98,6 +99,37 @@ This document outlines the database schema for migrating from NestJS to Supabase
   - houseNo (string) <!-- Frontend: Text input -->
   - postalCode (string) <!-- Frontend: Postal code input with country-specific validation -->
   - isVerified (boolean, default: true) <!-- Frontend: Toggle/Switch for admins -->
+
+## Role-Based Access Control
+
+### User Roles
+
+- **user**: Basic role for all authenticated users. Can view events and apply to them.
+- **teamer**: Role for team members who support events. They have a different event application process and can enter more detailed profile information.
+- **admin**: Administrative role. Can create/edit events, manage users, and access all admin features.
+
+### Permissions by Role
+
+1. **user**:
+
+   - View public events
+   - Apply to events
+   - Manage own profile
+   - View own applications
+
+2. **teamer**:
+
+   - All user permissions
+   - Access different event application process
+   - Enter more detailed profile information
+
+3. **admin**:
+   - All teamer permissions
+   - Create, edit, and delete events
+   - Access admin panel
+   - Manage user accounts
+   - Change user roles
+   - View all applications
 
 ## Relationships
 

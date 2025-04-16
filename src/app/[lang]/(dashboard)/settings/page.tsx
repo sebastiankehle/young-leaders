@@ -1,4 +1,5 @@
-import { Locale, getDictionary } from "../../dictionaries";
+import { getDictionary } from "@/app/[lang]/dictionaries";
+import { Locale } from "@/app/[lang]/dictionaries";
 
 export default async function SettingsPage({
   params,
@@ -9,14 +10,11 @@ export default async function SettingsPage({
   const dict = await getDictionary(lang);
 
   return (
-    <div className="flex flex-col gap-4 px-4 py-4 md:gap-6 md:py-6 lg:px-6">
-      <h1 className="text-2xl font-semibold tracking-tight">
-        {dict.navigation.settings}
-      </h1>
-
-      <p className="text-muted-foreground">
-        Manage your account settings and preferences.
+    <>
+      <h1 className="text-2xl font-bold">{dict.navigation.settings}</h1>
+      <p className="text-muted-foreground mt-4">
+        {dict.pageDescriptions.settings}
       </p>
-    </div>
+    </>
   );
 }

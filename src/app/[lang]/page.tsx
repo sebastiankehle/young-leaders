@@ -8,6 +8,6 @@ export default async function Home({
 }) {
   const { lang } = await params;
 
-  // Redirect to the dashboard page with the same language
+  // Redirect to the dashboard page in the dashboard route group
   redirect(`/${lang}/dashboard`);
 }

@@ -9,7 +9,6 @@ alwaysApply: true
 
 - Limit line length to 100 characters
 - Use single quotes for strings by default
-- Add trailing commas in multi-line objects and arrays
 - Use parentheses for multi-line JSX
 - Use meaningful whitespace to improve readability
 

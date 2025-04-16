@@ -1,7 +1,7 @@
 import { getDictionary } from "@/app/[lang]/dictionaries";
 import { Locale } from "@/app/[lang]/dictionaries";
 
-export default async function EventsPage({
+export default async function ApplicationsPage({
   params,
 }: {
   params: Promise<{ lang: Locale }>;
@@ -11,9 +11,9 @@ export default async function EventsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">{dict.navigation.events}</h1>
+      <h1 className="text-2xl font-bold">{dict.navigation.applications}</h1>
       <p className="text-muted-foreground mt-4">
-        {dict.pageDescriptions.events}
+        {dict.pageDescriptions.applications}
       </p>
     </>
   );

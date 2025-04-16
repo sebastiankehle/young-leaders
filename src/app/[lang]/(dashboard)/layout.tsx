@@ -26,8 +26,10 @@ export default async function DashboardLayout({
       <SidebarInset>
         <SiteHeader lang={lang} dict={dict} />
         <div className="flex flex-1 flex-col">
-          <div className="@container/main flex flex-1 flex-col gap-2">
-            {children}
+          <div className="@container/main flex flex-1 flex-col">
+            <div className="container mx-auto px-4 py-6 md:px-6">
+              {children}
+            </div>
           </div>
         </div>
       </SidebarInset>
