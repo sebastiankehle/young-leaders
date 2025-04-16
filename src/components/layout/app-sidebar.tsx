@@ -3,14 +3,9 @@
 import * as React from "react";
 import {
   IconCalendarEvent,
-  IconChartBar,
   IconDashboard,
-  IconFolder,
-  IconHelp,
   IconInnerShadowTop,
-  IconSearch,
   IconSettings,
-  IconUsers,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/layout/nav-main";
@@ -65,7 +60,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="/">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Young Leaders</span>
+                <span className="text-base font-semibold">young leaders</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

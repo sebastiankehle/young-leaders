@@ -1,7 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { type Icon } from "@tabler/icons-react"
+import * as React from "react";
+import { type Icon } from "@tabler/icons-react";
+import { IconMoon, IconSun } from "@tabler/icons-react";
+import { useTheme } from "next-themes";
 
 import {
   SidebarGroup,
@@ -9,20 +11,26 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-export function NavSecondary({
-  items,
-  ...props
-}: {
+interface NavSecondaryProps {
   items: {
-    title: string
-    url: string
-    icon: Icon
-  }[]
-} & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
+    title: string;
+    url: string;
+    icon: Icon;
+  }[];
+  className?: string;
+}
+
+export function NavSecondary({ items, className }: NavSecondaryProps) {
+  const { theme, setTheme } = useTheme();
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
   return (
-    <SidebarGroup {...props}>
+    <SidebarGroup className={className}>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
@@ -35,8 +43,18 @@ export function NavSecondary({
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={toggleTheme} className="cursor-pointer">
+              {theme === "dark" ? (
+                <IconMoon className="size-4" />
+              ) : (
+                <IconSun className="size-4" />
+              )}
+              <span>Theme</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>
-  )
+  );
 }
