@@ -5,7 +5,8 @@ import {
   IconLogout,
   IconUserCircle,
 } from "@tabler/icons-react";
-
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -22,17 +23,36 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Locale } from "@/app/[lang]/dictionaries";
 
-export function NavUser({
-  user,
-}: {
+interface NavUserProps {
   user: {
     name: string;
     email: string;
     avatar: string;
   };
-}) {
+  dict?: {
+    account: string;
+    logout: string;
+  };
+  lang?: Locale;
+}
+
+export function NavUser({ user, dict, lang }: NavUserProps) {
   const { isMobile } = useSidebar();
+  const router = useRouter();
+
+  // Default labels if no dictionary is provided
+  const labels = {
+    account: dict?.account || "Account",
+    logout: dict?.logout || "Log out",
+  };
+
+  const handleLogout = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push(lang ? `/${lang}/auth/login` : "/auth/login");
+  };
 
   return (
     <SidebarMenu>
@@ -79,14 +99,14 @@ export function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <IconUserCircle />
-                Account
+                <IconUserCircle className="mr-2 size-4" />
+                {labels.account}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
-              Log out
+            <DropdownMenuItem onClick={handleLogout}>
+              <IconLogout className="mr-2 size-4" />
+              {labels.logout}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

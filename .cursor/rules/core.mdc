@@ -64,7 +64,6 @@ alwaysApply: true
 
 ## Internationalization
 
-- Use proper i18n libraries/frameworks
 - Support RTL languages when necessary
 - Implement locale-specific formatting
 - Design UI with text expansion in mind

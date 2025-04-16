@@ -1,0 +1,42 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "events": "Veranstaltungen",
+    "settings": "Einstellungen",
+    "theme": "Thema",
+    "language": "Sprache"
+  },
+  "header": {
+    "home": "Startseite"
+  },
+  "user": {
+    "account": "Konto",
+    "logout": "Abmelden"
+  },
+  "auth": {
+    "login": "Anmelden",
+    "logout": "Abmelden",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "repeat_password": "Passwort wiederholen",
+    "forgot_password": "Passwort vergessen?",
+    "reset_password": "Passwort zurücksetzen",
+    "update_password": "Passwort aktualisieren",
+    "sign_up": "Registrieren",
+    "sign_in": "Anmelden",
+    "no_account": "Noch kein Konto?",
+    "already_account": "Bereits ein Konto?",
+    "create_account": "Konto erstellen",
+    "check_email": "Überprüfen Sie Ihre E-Mail",
+    "email_sent": "Wir haben Ihnen einen Link zum Zurücksetzen Ihres Passworts gesendet.",
+    "passwords_dont_match": "Passwörter stimmen nicht überein",
+    "password_updated": "Ihr Passwort wurde erfolgreich aktualisiert.",
+    "sign_up_success": "Erfolg! Überprüfen Sie Ihre E-Mail für einen Link zur Bestätigung Ihres Kontos.",
+    "email_verification": "E-Mail-Bestätigung",
+    "sign_up_title": "Registrieren Sie sich für ein Konto",
+    "login_title": "Bei Ihrem Konto anmelden",
+    "forgot_password_title": "Passwort zurücksetzen",
+    "update_password_title": "Neues Passwort festlegen",
+    "hello": "Hallo"
+  }
+}

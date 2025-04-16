@@ -1,74 +1,102 @@
-'use client'
+"use client";
 
-import { cn } from '@/lib/utils'
-import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
+import { cn } from "@/lib/utils";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import Link from 'next/link'
-import { useState } from 'react'
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Link from "next/link";
+import { useState } from "react";
+import { Locale } from "@/app/[lang]/dictionaries";
 
-export function ForgotPasswordForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
-  const [email, setEmail] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+interface ForgotPasswordFormProps
+  extends React.ComponentPropsWithoutRef<"div"> {
+  lang?: Locale;
+  dict?: {
+    reset_password?: string;
+    forgot_password_title?: string;
+    email?: string;
+    check_email?: string;
+    email_sent?: string;
+    already_account?: string;
+    login?: string;
+    [key: string]: string | undefined;
+  };
+}
+
+export function ForgotPasswordForm({
+  lang,
+  dict = {},
+  className,
+  ...props
+}: ForgotPasswordFormProps) {
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleForgotPassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const supabase = createClient()
-    setIsLoading(true)
-    setError(null)
+    e.preventDefault();
+    const supabase = createClient();
+    setIsLoading(true);
+    setError(null);
 
     try {
       // The url which will be included in the email. This URL needs to be configured in your redirect URLs in the Supabase dashboard at https://supabase.com/dashboard/project/_/auth/url-configuration
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/update-password`,
-      })
-      if (error) throw error
-      setSuccess(true)
+        redirectTo: `${window.location.origin}${lang ? `/${lang}` : ""}/auth/update-password`,
+      });
+      if (error) throw error;
+      setSuccess(true);
     } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : 'An error occurred')
+      setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
-    <div className={cn('flex flex-col gap-6', className)} {...props}>
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
       {success ? (
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Check Your Email</CardTitle>
-            <CardDescription>Password reset instructions sent</CardDescription>
+            <CardTitle className="text-2xl">
+              {dict.check_email || "Check Your Email"}
+            </CardTitle>
+            <CardDescription>
+              {dict.email_sent || "Password reset instructions sent"}
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              If you registered using your email and password, you will receive a password reset
-              email.
+            <p className="text-muted-foreground text-sm">
+              {dict.email_sent ||
+                "If you registered using your email and password, you will receive a password reset email."}
             </p>
           </CardContent>
         </Card>
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
+            <CardTitle className="text-2xl">
+              {dict.reset_password || "Reset Your Password"}
+            </CardTitle>
             <CardDescription>
-              Type in your email and we&apos;ll send you a link to reset your password
+              {dict.forgot_password_title ||
+                "Type in your email and we'll send you a link to reset your password"}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleForgotPassword}>
               <div className="flex flex-col gap-6">
                 <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{dict.email || "Email"}</Label>
                   <Input
                     id="email"
                     type="email"
@@ -80,13 +108,18 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? 'Sending...' : 'Send reset email'}
+                  {isLoading
+                    ? "Sending..."
+                    : dict.reset_password || "Send reset email"}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
-                Already have an account?{' '}
-                <Link href="/auth/login" className="underline underline-offset-4">
-                  Login
+                {dict.already_account || "Already have an account?"}{" "}
+                <Link
+                  href={lang ? `/${lang}/auth/login` : "/auth/login"}
+                  className="underline underline-offset-4"
+                >
+                  {dict.login || "Login"}
                 </Link>
               </div>
             </form>
@@ -94,5 +127,5 @@ export function ForgotPasswordForm({ className, ...props }: React.ComponentProps
         </Card>
       )}
     </div>
-  )
+  );
 }

@@ -1,0 +1,123 @@
+# Internationalization Guidelines
+
+## Core Concepts
+
+- **Locales**: Each supported language is represented by a locale code (e.g., `en`, `de`)
+- **Dictionary Files**: JSON files containing translations for each supported language
+- **Dynamic Routes**: Using Next.js dynamic routes with the `[lang]` parameter
+- **Middleware**: For locale detection and redirection
+
+## Project Structure
+
+```
+src/
+├── app/
+│   ├── [lang]/           # Language-specific root directory
+│   │   ├── dictionaries/ # Translation dictionaries
+│   │   │   ├── en.json   # English translations
+│   │   │   └── de.json   # German translations
+│   │   ├── layout.tsx    # Root layout with language attribute
+│   │   └── dictionaries.ts # Dictionary loading utility
+└── middleware.ts        # Locale detection and routing
+```
+
+## Dictionary Format
+
+Each language dictionary should follow the same structure:
+
+```json
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "events": "Events",
+    "settings": "Settings",
+    "theme": "Theme"
+  },
+  "header": {
+    "home": "Home"
+  },
+  "user": {
+    "account": "Account",
+    "logout": "Log out"
+  }
+}
+```
+
+## Component Patterns
+
+### Server Components with Promise Params
+
+Server components receive the `params` object as a Promise in Next.js. Always use the correct type and await the params:
+
+```tsx
+import { Locale, getDictionary } from "../dictionaries";
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
+  return <div>{dict.navigation.dashboard}</div>;
+}
+```
+
+### Client Components
+
+Client components should receive dictionary values as props:
+
+```tsx
+// Server component
+import { Locale, getDictionary } from "../dictionaries";
+import ClientComponent from "@/components/ClientComponent";
+
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: Locale }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang);
+  return <ClientComponent label={dict.navigation.dashboard} lang={lang} />;
+}
+
+// Client component
+"use client";
+export default function ClientComponent({ label, lang }: { label: string, lang: string }) {
+  return <div>{label}</div>;
+}
+```
+
+## URL Construction
+
+- Always include the language parameter in URLs: `/${lang}/dashboard`
+- Use the locale from the current context: `<Link href={`/${lang}/settings`}>`
+
+## Static Generation
+
+Generate static paths for all supported locales:
+
+```tsx
+export async function generateStaticParams() {
+  return [{ lang: "en" }, { lang: "de" }];
+}
+```
+
+## Fallback Handling
+
+Always provide fallbacks for missing translations:
+
+```tsx
+<h1>{dict.title || 'Default Title'}</h1>
+```
+
+## Best Practices
+
+- Keep translation keys consistent across all language files
+- Use nested objects for logical grouping of translations
+- Avoid hardcoding text in components, even for seemingly "fixed" strings
+- Always provide fallback values when translations might be missing
+- Add new translations to all language files when introducing new UI elements
+- Always handle the Promise nature of params in server components
+- Pass both the dictionary and language code to client components for proper URL construction 

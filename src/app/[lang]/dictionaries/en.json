@@ -1,0 +1,42 @@
+{
+  "navigation": {
+    "dashboard": "Dashboard",
+    "events": "Events",
+    "settings": "Settings",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "header": {
+    "home": "Home"
+  },
+  "user": {
+    "account": "Account",
+    "logout": "Log out"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "repeat_password": "Repeat Password",
+    "forgot_password": "Forgot password?",
+    "reset_password": "Reset Password",
+    "update_password": "Update Password",
+    "sign_up": "Sign up",
+    "sign_in": "Sign in",
+    "no_account": "Don't have an account?",
+    "already_account": "Already have an account?",
+    "create_account": "Create an account",
+    "check_email": "Check your email",
+    "email_sent": "We've sent you a link to reset your password.",
+    "passwords_dont_match": "Passwords do not match",
+    "password_updated": "Your password has been updated successfully.",
+    "sign_up_success": "Success! Check your email for a link to confirm your account.",
+    "email_verification": "Email Verification",
+    "sign_up_title": "Sign up for an account",
+    "login_title": "Login to your account",
+    "forgot_password_title": "Reset your password",
+    "update_password_title": "Set a new password",
+    "hello": "Hello"
+  }
+}

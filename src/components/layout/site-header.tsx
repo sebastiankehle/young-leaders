@@ -3,19 +3,29 @@
 import { usePathname } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Locale } from "@/app/[lang]/dictionaries";
 
-export function SiteHeader() {
+interface SiteHeaderProps {
+  currentPath?: string;
+  lang?: Locale;
+}
+
+export function SiteHeader({ currentPath, lang }: SiteHeaderProps) {
+  // Use the provided currentPath or get it from the pathname
   const pathname = usePathname();
+  const path = currentPath || pathname;
 
   // Extract the current page title from the pathname
   const getPageTitle = () => {
-    // Remove leading slash and get the first segment
-    const segment = pathname.split("/")[1];
+    // Remove leading slash and get the last segment
+    // This handles both /dashboard and /en/dashboard cases
+    const segments = path.split("/").filter(Boolean);
+    const lastSegment = segments[segments.length - 1];
 
-    if (!segment) return "Home";
+    if (!lastSegment) return "Home";
 
     // Capitalize the first letter
-    return segment.charAt(0).toUpperCase() + segment.slice(1);
+    return lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
   };
 
   return (
