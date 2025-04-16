@@ -22,13 +22,14 @@ import {
   IconClipboardData,
   IconPlus,
   IconChartBar,
+  IconSwitch3,
   type Icon,
 } from "@tabler/icons-react";
 import { Locale } from "@/app/[lang]/dictionaries";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 
-import { NavItem, NavMain } from "@/components/layout/nav-main";
+import { NavItem, NavGroup } from "@/components/layout/nav-group";
 import { NavUser } from "@/components/layout/nav-user";
 import {
   Sidebar,
@@ -39,7 +40,9 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import { Switch } from "@/components/ui/switch";
 import { UserRole } from "@/lib/auth/roles";
+import { getCurrentUser } from "@/lib/auth/client";
 
 // Define type for navigation item
 type NavStructureItem = {
@@ -52,16 +55,19 @@ type NavStructureItem = {
 
 // Define navigation structure once
 const navigationStructure: {
+  navDashboard: NavStructureItem[];
   navMain: NavStructureItem[];
   navUser: NavStructureItem[];
   navAdmin: NavStructureItem[];
 } = {
-  navMain: [
+  navDashboard: [
     {
       key: "dashboard",
       url: "/dashboard",
       icon: IconDashboard,
     },
+  ],
+  navMain: [
     {
       key: "events",
       url: "/events",
@@ -195,20 +201,7 @@ const navigationStructure: {
         },
       ],
     },
-    {
-      key: "adminSchools",
-      url: "/admin/schools",
-      icon: IconBuildingSkyscraper,
-      requiredRole: "admin",
-      children: [
-        {
-          key: "manageSchools",
-          url: "/admin/schools/manage",
-          icon: IconClipboardData,
-          requiredRole: "admin",
-        },
-      ],
-    },
+
     {
       key: "adminApplications",
       url: "/admin/applications",
@@ -225,6 +218,20 @@ const navigationStructure: {
           key: "compareApplications",
           url: "/admin/applications/compare",
           icon: IconAnalyze,
+          requiredRole: "admin",
+        },
+      ],
+    },
+    {
+      key: "adminSchools",
+      url: "/admin/schools",
+      icon: IconBuildingSkyscraper,
+      requiredRole: "admin",
+      children: [
+        {
+          key: "manageSchools",
+          url: "/admin/schools/manage",
+          icon: IconClipboardData,
           requiredRole: "admin",
         },
       ],
@@ -272,6 +279,8 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
       mainNavigation?: string;
       userSettings?: string;
       adminSection?: string;
+      adminView?: string;
+      userView?: string;
       [key: string]: string | undefined;
     };
     user?: {
@@ -312,44 +321,60 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
     name: "",
     email: "",
     avatar: "/avatars/default.jpg",
+    role: "" as UserRole,
+    id: "",
   });
+  const [isAdminView, setIsAdminView] = React.useState(false);
+
+  const refreshUserData = async () => {
+    // Use the getCurrentUser function from client.ts
+    const user = await getCurrentUser();
+
+    if (user) {
+      // Get user profile data from Supabase for name and avatar
+      const supabase = createClient();
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("full_name, avatar_url")
+        .eq("id", user.id)
+        .single();
+
+      setUserData({
+        name: profile?.full_name || user.email?.split("@")[0] || "User",
+        email: user.email || "",
+        avatar: profile?.avatar_url || "/avatars/default.jpg",
+        role: user.role || "user", // Now using the role from getCurrentUser
+        id: user.id,
+      });
+    }
+  };
 
   React.useEffect(() => {
-    const fetchUserData = async () => {
-      const supabase = createClient();
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        // Get user profile data from Supabase
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
-
-        setUserData({
-          name: profile?.full_name || user.email?.split("@")[0] || "User",
-          email: user.email || "",
-          avatar: profile?.avatar_url || "/avatars/default.jpg",
-        });
-      }
-    };
-
-    fetchUserData();
+    refreshUserData();
   }, []);
 
   // Transform navigation structure with localization
+  const navDashboard = transformNavItems(
+    navigationStructure.navDashboard,
+    dict,
+    lang,
+  );
   const navMain = transformNavItems(navigationStructure.navMain, dict, lang);
   const navUser = transformNavItems(navigationStructure.navUser, dict, lang);
   const navAdmin = transformNavItems(navigationStructure.navAdmin, dict, lang);
 
   // Get translated group labels or use defaults
-  const mainNavigationLabel =
-    dict?.navigation.mainNavigation || "Main Navigation";
-  const userSettingsLabel = dict?.navigation.userSettings || "User Settings";
-  const adminSectionLabel = dict?.navigation.adminSection || "ADMIN";
+  const mainNavigationLabel = dict?.navigation.mainNavigation || "Welcome";
+  const userNavigationLabel = dict?.navigation.userNavigation || "User";
+  const adminSectionLabel = dict?.navigation.adminSection || "Admin";
+  const userSettingsLabel =
+    dict?.navigation.generalSettings || "General Settings";
+  const adminViewLabel = dict?.navigation.adminView || "Admin View";
+  const userViewLabel = dict?.navigation.userView || "User View";
+
+  const isAdmin = userData.role === "admin";
+
+  console.log("Current user role:", userData.role); // Debug log
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -375,15 +400,38 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMain} label={mainNavigationLabel} />
-        <div className="mt-6">
-          <NavMain items={navUser} label={userSettingsLabel} />
-        </div>
-        <div className="mt-6">
-          <NavMain items={navAdmin} label={adminSectionLabel} />
-        </div>
+        {/* Dashboard is always shown */}
+        <NavGroup items={navDashboard} label={mainNavigationLabel} />
+
+        {/* Main navigation or Admin navigation based on view */}
+        {(!isAdminView || !isAdmin) && (
+          <NavGroup items={navMain} label={userNavigationLabel} />
+        )}
+        {isAdminView && isAdmin && (
+          <NavGroup items={navAdmin} label={adminSectionLabel} />
+        )}
+
+        {/* User settings always shown */}
+        <NavGroup items={navUser} label={userSettingsLabel} />
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="flex flex-col">
+        {isAdmin && (
+          <div className="border-border mb-4 border-t px-4 pt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <IconSwitch3 className="h-5 w-5" />
+                <span className="text-sm">
+                  {isAdminView ? adminViewLabel : userViewLabel}
+                </span>
+              </div>
+              <Switch
+                checked={isAdminView}
+                onCheckedChange={setIsAdminView}
+                aria-label="Toggle admin view"
+              />
+            </div>
+          </div>
+        )}
         <NavUser user={userData} dict={dict?.user} lang={lang} />
       </SidebarFooter>
     </Sidebar>

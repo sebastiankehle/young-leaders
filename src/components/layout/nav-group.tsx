@@ -25,9 +25,9 @@ export interface NavItem {
   requiredRole?: "user" | "teamer" | "admin";
 }
 
-export function NavMain({
+export function NavGroup({
   items,
-  label = "Main Navigation",
+  label,
 }: {
   items: NavItem[];
   label?: string;

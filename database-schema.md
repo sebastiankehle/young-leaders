@@ -46,9 +46,17 @@ This document outlines the database schema for migrating from NestJS to Supabase
   - hasDriverLicense (boolean, default: false) <!-- Frontend: Toggle/Switch -->
   - driverLicenseNumber (string) <!-- Frontend: Text input with conditional display (if hasDriverLicense is true) -->
   - driverLicenseClass (string) <!-- Frontend: Dropdown with license class options, conditional display -->
-  - role (string, default: "user") <!-- Frontend: Dropdown with role options (user, teamer, admin) -->
 
-### 2. events
+### 2. user_roles
+
+- **Primary Key**: id (UUID)
+- **Fields**:
+  - user_id (UUID, foreign key to auth.users) <!-- Reference to Supabase auth user -->
+  - role (string, enum: "user", "teamer", "admin") <!-- Frontend: Admin-only dropdown for role assignment -->
+  - created_at (timestamp) <!-- Automatically managed by Supabase -->
+  - updated_at (timestamp) <!-- Automatically managed by Supabase -->
+
+### 3. events
 
 - **Primary Key**: id (UUID)
 - **Fields**:
@@ -71,7 +79,7 @@ This document outlines the database schema for migrating from NestJS to Supabase
   - teamApplicationRequired (string, default: "NOT_OPEN") <!-- Frontend: Dropdown with options (NOT_OPEN, OPTIONAL, REQUIRED) -->
   - questions (JSON object) <!-- Frontend: Dynamic form builder for custom questions -->
 
-### 3. applications
+### 4. applications
 
 - **Primary Key**: id (UUID)
 - **Fields**:
@@ -87,7 +95,7 @@ This document outlines the database schema for migrating from NestJS to Supabase
   - userId (UUID, foreign key) <!-- Frontend: Hidden field or user search for admins -->
   - answers (JSON object) <!-- Frontend: Dynamic form fields based on event's questions -->
 
-### 4. schools
+### 5. schools
 
 - **Primary Key**: id (UUID)
 - **Fields**:
@@ -136,3 +144,4 @@ This document outlines the database schema for migrating from NestJS to Supabase
 1. **profile** has many **applications**
 2. **profile** belongs to one **school**
 3. **events** has many **applications**
+4. **auth.users** has one **user_roles** (optional)
