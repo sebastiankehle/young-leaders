@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React from "react";
 import {
   IconCalendarEvent,
   IconDashboard,
@@ -18,6 +18,7 @@ import {
   IconId,
   IconCreditCard,
   IconCar,
+  type Icon,
 } from "@tabler/icons-react";
 import { Locale } from "@/app/[lang]/dictionaries";
 import { createClient } from "@/lib/supabase/client";
@@ -34,47 +35,56 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 
-// Default data that will be overridden by dictionary when available
-const data: {
-  navMain: NavItem[];
-  navUser: NavItem[];
+// Define type for navigation item
+type NavStructureItem = {
+  key: string;
+  url: string;
+  icon: Icon;
+  requiredRole?: "teamer" | "user" | "admin";
+  children?: NavStructureItem[];
+};
+
+// Define navigation structure once
+const navigationStructure: {
+  navMain: NavStructureItem[];
+  navUser: NavStructureItem[];
 } = {
   navMain: [
     {
-      title: "Dashboard",
+      key: "dashboard",
       url: "/dashboard",
       icon: IconDashboard,
     },
     {
-      title: "Events",
+      key: "events",
       url: "/events",
       icon: IconCalendarEvent,
       children: [
         {
-          title: "Current Events",
-          url: "/events/current",
+          key: "currentEvents",
+          url: "/events/current-events",
           icon: IconClock,
         },
         {
-          title: "Past Events",
-          url: "/events/past",
+          key: "pastEvents",
+          url: "/events/past-events",
           icon: IconCalendar,
         },
       ],
     },
     {
-      title: "Applications",
+      key: "applications",
       url: "/applications",
       icon: IconClipboardList,
       children: [
         {
-          title: "Current Applications",
-          url: "/applications/current",
+          key: "currentApplications",
+          url: "/applications/current-applications",
           icon: IconList,
         },
         {
-          title: "Past Applications",
-          url: "/applications/past",
+          key: "pastApplications",
+          url: "/applications/past-applications",
           icon: IconList,
         },
       ],
@@ -82,49 +92,49 @@ const data: {
   ],
   navUser: [
     {
-      title: "Profile",
+      key: "profile",
       url: "/profile",
       icon: IconUser,
       children: [
         {
-          title: "Personal Information",
+          key: "personalInfo",
           url: "/profile/personal",
           icon: IconUser,
         },
         {
-          title: "Contact Details",
+          key: "contactDetails",
           url: "/profile/contact",
           icon: IconPhoneCall,
         },
         {
-          title: "Address",
+          key: "address",
           url: "/profile/address",
           icon: IconMapPin,
         },
         {
-          title: "Education",
+          key: "education",
           url: "/profile/education",
           icon: IconSchool,
         },
         {
-          title: "Preferences",
+          key: "preferences",
           url: "/profile/preferences",
           icon: IconSettings,
         },
         {
-          title: "Teamer Information",
+          key: "teamerInfo",
           url: "/profile/teamer",
           icon: IconId,
           requiredRole: "teamer",
           children: [
             {
-              title: "Banking Details",
+              key: "bankingDetails",
               url: "/profile/teamer/banking",
               icon: IconCreditCard,
               requiredRole: "teamer",
             },
             {
-              title: "Driver Information",
+              key: "driverInfo",
               url: "/profile/teamer/driver",
               icon: IconCar,
               requiredRole: "teamer",
@@ -134,17 +144,17 @@ const data: {
       ],
     },
     {
-      title: "Settings",
+      key: "settings",
       url: "/settings",
       icon: IconSettings,
       children: [
         {
-          title: "Appearance",
+          key: "appearance",
           url: "/settings/appearance",
           icon: IconPaint,
         },
         {
-          title: "Language",
+          key: "language",
           url: "/settings/language",
           icon: IconList,
         },
@@ -182,6 +192,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
       // Group labels
       mainNavigation?: string;
       userSettings?: string;
+      [key: string]: string | undefined;
     };
     user?: {
       account: string;
@@ -189,6 +200,31 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
     };
   };
   lang?: Locale;
+}
+
+// Helper function to transform navigation items with localization
+function transformNavItems(
+  items: NavStructureItem[],
+  dict?: AppSidebarProps["dict"],
+  lang: Locale = "en",
+): NavItem[] {
+  return items.map((item) => {
+    const title = dict?.navigation[item.key] || item.key;
+    const url = `/${lang}${item.url}`;
+
+    const transformed: NavItem = {
+      title,
+      url,
+      icon: item.icon,
+      requiredRole: item.requiredRole,
+    };
+
+    if (item.children) {
+      transformed.children = transformNavItems(item.children, dict, lang);
+    }
+
+    return transformed;
+  });
 }
 
 export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
@@ -224,125 +260,9 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
     fetchUserData();
   }, []);
 
-  // Create localized navigation items when dictionary is available
-  const navMain: NavItem[] = dict
-    ? [
-        {
-          title: dict.navigation.dashboard,
-          url: `/${lang}/dashboard`,
-          icon: IconDashboard,
-        },
-        {
-          title: dict.navigation.events,
-          url: `/${lang}/events`,
-          icon: IconCalendarEvent,
-          children: [
-            {
-              title: dict.navigation.currentEvents || "Current Events",
-              url: `/${lang}/events/current`,
-              icon: IconClock,
-            },
-            {
-              title: dict.navigation.pastEvents || "Past Events",
-              url: `/${lang}/events/past`,
-              icon: IconCalendar,
-            },
-          ],
-        },
-        {
-          title: dict.navigation.applications || "Applications",
-          url: `/${lang}/applications`,
-          icon: IconClipboardList,
-          children: [
-            {
-              title:
-                dict.navigation.currentApplications || "Current Applications",
-              url: `/${lang}/applications/current`,
-              icon: IconList,
-            },
-            {
-              title: dict.navigation.pastApplications || "Past Applications",
-              url: `/${lang}/applications/past`,
-              icon: IconList,
-            },
-          ],
-        },
-      ]
-    : data.navMain;
-
-  const navUser: NavItem[] = dict
-    ? [
-        {
-          title: dict.navigation.profile || "Profile",
-          url: `/${lang}/profile`,
-          icon: IconUser,
-          children: [
-            {
-              title: dict.navigation.personalInfo || "Personal Information",
-              url: `/${lang}/profile/personal`,
-              icon: IconUser,
-            },
-            {
-              title: dict.navigation.contactDetails || "Contact Details",
-              url: `/${lang}/profile/contact`,
-              icon: IconPhoneCall,
-            },
-            {
-              title: dict.navigation.address || "Address",
-              url: `/${lang}/profile/address`,
-              icon: IconMapPin,
-            },
-            {
-              title: dict.navigation.education || "Education",
-              url: `/${lang}/profile/education`,
-              icon: IconSchool,
-            },
-            {
-              title: dict.navigation.preferences || "Preferences",
-              url: `/${lang}/profile/preferences`,
-              icon: IconSettings,
-            },
-            {
-              title: dict.navigation.teamerInfo || "Teamer Information",
-              url: `/${lang}/profile/teamer`,
-              icon: IconId,
-              requiredRole: "teamer",
-              children: [
-                {
-                  title: dict.navigation.bankingDetails || "Banking Details",
-                  url: `/${lang}/profile/teamer/banking`,
-                  icon: IconCreditCard,
-                  requiredRole: "teamer",
-                },
-                {
-                  title: dict.navigation.driverInfo || "Driver Information",
-                  url: `/${lang}/profile/teamer/driver`,
-                  icon: IconCar,
-                  requiredRole: "teamer",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          title: dict.navigation.settings,
-          url: `/${lang}/settings`,
-          icon: IconSettings,
-          children: [
-            {
-              title: dict.navigation.appearance || "Appearance",
-              url: `/${lang}/settings/appearance`,
-              icon: IconPaint,
-            },
-            {
-              title: dict.navigation.language || "Language",
-              url: `/${lang}/settings/language`,
-              icon: IconList,
-            },
-          ],
-        },
-      ]
-    : data.navUser;
+  // Transform navigation structure with localization
+  const navMain = transformNavItems(navigationStructure.navMain, dict, lang);
+  const navUser = transformNavItems(navigationStructure.navUser, dict, lang);
 
   // Get translated group labels or use defaults
   const mainNavigationLabel =

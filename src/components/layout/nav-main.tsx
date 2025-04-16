@@ -4,6 +4,7 @@ import { useState } from "react";
 import { type Icon } from "@tabler/icons-react";
 import { IconChevronDown } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 import {
   SidebarGroup,
@@ -12,6 +13,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 
@@ -38,16 +40,16 @@ export function NavMain({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               {item.children ? (
-                <SubmenuItem item={item} />
+                <SubmenuItem key={item.url} item={item} />
               ) : (
                 <SidebarMenuButton asChild tooltip={item.title}>
-                  <a
+                  <Link
                     href={item.url}
                     className="flex cursor-pointer items-center gap-2"
                   >
                     {item.icon && <item.icon className="size-4" />}
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               )}
             </SidebarMenuItem>
@@ -59,8 +61,11 @@ export function NavMain({
 }
 
 function SubmenuItem({ item }: { item: NavItem }) {
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const { state: sidebarState } = useSidebar();
+
+  // Always start with submenus open by default
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleItemClick = () => {
     router.push(item.url);
@@ -76,6 +81,9 @@ function SubmenuItem({ item }: { item: NavItem }) {
     // check against the actual user role from auth context
     return true; // For now, show all items
   });
+
+  // Check if sidebar is collapsed to hide content appropriately
+  const isSidebarCollapsed = sidebarState === "collapsed";
 
   return (
     <>
@@ -104,20 +112,21 @@ function SubmenuItem({ item }: { item: NavItem }) {
         </div>
       </SidebarMenuButton>
 
-      {isOpen && filteredChildren && (
+      {/* Only show submenu content if sidebar is expanded and the menu is open */}
+      {isOpen && !isSidebarCollapsed && filteredChildren && (
         <div className="border-border mt-1 ml-7 flex flex-col gap-1 border-l pl-2">
           {filteredChildren.map((child) =>
             child.children ? (
               <NestedSubmenuItem key={child.title} item={child} />
             ) : (
-              <a
+              <Link
                 key={child.title}
                 href={child.url}
                 className="text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-sm"
               >
                 {child.icon && <child.icon className="size-3.5" />}
                 <span>{child.title}</span>
-              </a>
+              </Link>
             ),
           )}
         </div>
@@ -127,8 +136,11 @@ function SubmenuItem({ item }: { item: NavItem }) {
 }
 
 function NestedSubmenuItem({ item }: { item: NavItem }) {
-  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const { state: sidebarState } = useSidebar();
+
+  // Always start with submenus open by default
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleItemClick = () => {
     router.push(item.url);
@@ -142,6 +154,9 @@ function NestedSubmenuItem({ item }: { item: NavItem }) {
     // Otherwise, we would check if the user has the required role
     return true; // For now, show all items
   });
+
+  // Check if sidebar is collapsed to hide content appropriately
+  const isSidebarCollapsed = sidebarState === "collapsed";
 
   return (
     <div className="mb-1">
@@ -170,17 +185,18 @@ function NestedSubmenuItem({ item }: { item: NavItem }) {
         </div>
       </div>
 
-      {isOpen && filteredChildren && (
+      {/* Only show submenu content if sidebar is expanded and the menu is open */}
+      {isOpen && !isSidebarCollapsed && filteredChildren && (
         <div className="border-border mt-1 ml-4 flex flex-col gap-1 border-l pl-2">
           {filteredChildren.map((child) => (
-            <a
+            <Link
               key={child.title}
               href={child.url}
               className="text-muted-foreground hover:bg-accent hover:text-accent-foreground flex items-center gap-2 rounded-md px-2 py-1.5 text-sm"
             >
               {child.icon && <child.icon className="size-3.5" />}
               <span>{child.title}</span>
-            </a>
+            </Link>
           ))}
         </div>
       )}
