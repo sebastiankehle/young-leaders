@@ -21,7 +21,17 @@
     "currentApplications": "Aktuelle Bewerbungen",
     "pastApplications": "Vergangene Bewerbungen",
     "mainNavigation": "Hauptnavigation",
-    "userSettings": "Benutzereinstellungen"
+    "userSettings": "Benutzereinstellungen",
+    "adminSection": "ADMIN",
+    "adminEvents": "Veranstaltungen",
+    "createEvent": "Veranstaltung erstellen",
+    "manageEvents": "Veranstaltungen verwalten",
+    "eventAnalytics": "Veranstaltungsanalysen",
+    "adminSchools": "Schulen",
+    "manageSchools": "Schulen verwalten",
+    "adminApplications": "Bewerbungen",
+    "manageApplications": "Bewerbungen verwalten",
+    "compareApplications": "Bewerbungen vergleichen"
   },
   "pageDescriptions": {
     "dashboard": "Willkommen auf Ihrem Dashboard. Hier können Sie Ihr Konto verwalten und Ihre Aktivitäten einsehen.",
@@ -40,7 +50,16 @@
     "currentEvents": "Sehen Sie aktuell laufende Veranstaltungen.",
     "pastEvents": "Sehen Sie Veranstaltungen, die bereits stattgefunden haben.",
     "currentApplications": "Sehen und verwalten Sie Ihre aktiven Bewerbungen.",
-    "pastApplications": "Sehen Sie Ihre Bewerbungshistorie."
+    "pastApplications": "Sehen Sie Ihre Bewerbungshistorie.",
+    "adminEvents": "Verwalten Sie alle Aspekte der young leaders Veranstaltungen.",
+    "createEvent": "Erstellen Sie eine neue Veranstaltung für das young leaders Programm.",
+    "manageEvents": "Verwalten Sie bestehende young leaders Veranstaltungen.",
+    "eventAnalytics": "Sehen Sie Statistiken und Analysen für young leaders Veranstaltungen.",
+    "adminSchools": "Verwalten Sie Schulen, die am young leaders Programm teilnehmen.",
+    "manageSchools": "Verwalten Sie Schulen, die am young leaders Programm teilnehmen.",
+    "adminApplications": "Verwalten und prüfen Sie Bewerbungen für das young leaders Programm.",
+    "manageApplications": "Prüfen und verwalten Sie Bewerbungen für das young leaders Programm.",
+    "compareApplications": "Vergleichen und bewerten Sie Bewerbungen direkt nebeneinander."
   },
   "header": {
     "home": "Startseite"

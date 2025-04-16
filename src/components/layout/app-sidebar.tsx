@@ -17,6 +17,11 @@ import {
   IconId,
   IconCreditCard,
   IconCar,
+  IconBuildingSkyscraper,
+  IconAnalyze,
+  IconClipboardData,
+  IconPlus,
+  IconChartBar,
   type Icon,
 } from "@tabler/icons-react";
 import { Locale } from "@/app/[lang]/dictionaries";
@@ -49,6 +54,7 @@ type NavStructureItem = {
 const navigationStructure: {
   navMain: NavStructureItem[];
   navUser: NavStructureItem[];
+  navAdmin: NavStructureItem[];
 } = {
   navMain: [
     {
@@ -162,6 +168,68 @@ const navigationStructure: {
       ],
     },
   ],
+  navAdmin: [
+    {
+      key: "adminEvents",
+      url: "/admin/events",
+      icon: IconCalendarEvent,
+      requiredRole: "admin",
+      children: [
+        {
+          key: "createEvent",
+          url: "/admin/events/create",
+          icon: IconPlus,
+          requiredRole: "admin",
+        },
+        {
+          key: "manageEvents",
+          url: "/admin/events/manage",
+          icon: IconClipboardData,
+          requiredRole: "admin",
+        },
+        {
+          key: "eventAnalytics",
+          url: "/admin/events/analytics",
+          icon: IconChartBar,
+          requiredRole: "admin",
+        },
+      ],
+    },
+    {
+      key: "adminSchools",
+      url: "/admin/schools",
+      icon: IconBuildingSkyscraper,
+      requiredRole: "admin",
+      children: [
+        {
+          key: "manageSchools",
+          url: "/admin/schools/manage",
+          icon: IconClipboardData,
+          requiredRole: "admin",
+        },
+      ],
+    },
+    {
+      key: "adminApplications",
+      url: "/admin/applications",
+      icon: IconClipboardList,
+      requiredRole: "admin",
+      children: [
+        {
+          key: "manageApplications",
+          url: "/admin/applications/manage",
+          icon: IconClipboardData,
+          requiredRole: "admin",
+        },
+        {
+          key: "compareApplications",
+          url: "/admin/applications/compare",
+          icon: IconAnalyze,
+          requiredRole: "admin",
+        },
+      ],
+    },
+  ],
 };
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
@@ -190,9 +258,20 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
       // Applications section
       currentApplications?: string;
       pastApplications?: string;
+      // Admin section
+      adminEvents?: string;
+      createEvent?: string;
+      manageEvents?: string;
+      eventAnalytics?: string;
+      adminSchools?: string;
+      manageSchools?: string;
+      adminApplications?: string;
+      manageApplications?: string;
+      compareApplications?: string;
       // Group labels
       mainNavigation?: string;
       userSettings?: string;
+      adminSection?: string;
       [key: string]: string | undefined;
     };
     user?: {
@@ -264,11 +343,13 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
   // Transform navigation structure with localization
   const navMain = transformNavItems(navigationStructure.navMain, dict, lang);
   const navUser = transformNavItems(navigationStructure.navUser, dict, lang);
+  const navAdmin = transformNavItems(navigationStructure.navAdmin, dict, lang);
 
   // Get translated group labels or use defaults
   const mainNavigationLabel =
     dict?.navigation.mainNavigation || "Main Navigation";
   const userSettingsLabel = dict?.navigation.userSettings || "User Settings";
+  const adminSectionLabel = dict?.navigation.adminSection || "ADMIN";
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -282,7 +363,7 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
               <a href={lang ? `/${lang}/dashboard` : "/dashboard"}>
                 <Image
                   src="/images/yl_vektor.png"
-                  alt="Young Leaders Logo"
+                  alt="young leaders Logo"
                   width={20}
                   height={20}
                   className="object-contain"
@@ -297,6 +378,9 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
         <NavMain items={navMain} label={mainNavigationLabel} />
         <div className="mt-6">
           <NavMain items={navUser} label={userSettingsLabel} />
+        </div>
+        <div className="mt-6">
+          <NavMain items={navAdmin} label={adminSectionLabel} />
         </div>
       </SidebarContent>
       <SidebarFooter>

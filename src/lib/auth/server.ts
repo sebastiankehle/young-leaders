@@ -13,16 +13,18 @@ export async function getCurrentUser(): Promise<UserWithRole | null> {
   } = await supabase.auth.getUser();
   if (!user) return null;
 
+  // TODO: Uncomment this once profile table is created
   // Fetch the user's profile which contains the role
-  const { data: profile } = await supabase
-    .from("profile")
-    .select("role")
-    .eq("id", user.id)
-    .single();
+  // const { data: profile } = await supabase
+  //   .from("profile")
+  //   .select("role")
+  //   .eq("id", user.id)
+  //   .single();
 
   return {
     ...user,
-    role: (profile?.role as UserRole) || "user",
+    // Temporarily set all authenticated users as admin until profile table is ready
+    role: "admin", // (profile?.role as UserRole) || "user",
   };
 }
 

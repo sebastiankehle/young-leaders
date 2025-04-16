@@ -21,7 +21,17 @@
     "currentApplications": "Current Applications",
     "pastApplications": "Past Applications",
     "mainNavigation": "Main Navigation",
-    "userSettings": "User Settings"
+    "userSettings": "User Settings",
+    "adminSection": "ADMIN",
+    "adminEvents": "Events",
+    "createEvent": "Create Event",
+    "manageEvents": "Manage Events",
+    "eventAnalytics": "Event Analytics",
+    "adminSchools": "Schools",
+    "manageSchools": "Manage Schools",
+    "adminApplications": "Applications",
+    "manageApplications": "Manage Applications",
+    "compareApplications": "Compare Applications"
   },
   "pageDescriptions": {
     "dashboard": "Welcome to your dashboard. Here you can manage your account and view your activity.",
@@ -40,7 +50,16 @@
     "currentEvents": "View events that are currently active.",
     "pastEvents": "View events that have already taken place.",
     "currentApplications": "View and manage your active applications.",
-    "pastApplications": "View your application history."
+    "pastApplications": "View your application history.",
+    "adminEvents": "Manage all aspects of young leaders events.",
+    "createEvent": "Create a new event for young leaders program.",
+    "manageEvents": "Manage existing young leaders events.",
+    "eventAnalytics": "View statistics and analytics for young leaders events.",
+    "adminSchools": "Manage schools participating in the young leaders program.",
+    "manageSchools": "Manage schools participating in the young leaders program.",
+    "adminApplications": "Manage and review applications for the young leaders program.",
+    "manageApplications": "Review and manage applications for the young leaders program.",
+    "compareApplications": "Compare and evaluate applications side-by-side."
   },
   "header": {
     "home": "Home"
