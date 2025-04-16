@@ -51,11 +51,6 @@ const data: {
       icon: IconCalendarEvent,
       children: [
         {
-          title: "Upcoming",
-          url: "/events/upcoming",
-          icon: IconCalendar,
-        },
-        {
           title: "Current",
           url: "/events/current",
           icon: IconClock,
@@ -243,11 +238,6 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
           url: `/${lang}/events`,
           icon: IconCalendarEvent,
           children: [
-            {
-              title: dict.navigation.upcoming || "Upcoming",
-              url: `/${lang}/events/upcoming`,
-              icon: IconCalendar,
-            },
             {
               title: dict.navigation.current || "Current",
               url: `/${lang}/events/current`,

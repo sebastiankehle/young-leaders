@@ -26,7 +26,7 @@
   },
   "pageDescriptions": {
     "dashboard": "Willkommen auf Ihrem Dashboard. Hier können Sie Ihr Konto verwalten und Ihre Aktivitäten einsehen.",
-    "events": "Durchsuchen und anmelden für kommende Veranstaltungen.",
+    "events": "Durchsuchen und anmelden für Veranstaltungen.",
     "settings": "Passen Sie Ihre Anwendungseinstellungen und Präferenzen an.",
     "appearance": "Ändern Sie das Aussehen der Anwendung durch Auswahl Ihres bevorzugten Farbschemas.",
     "language": "Wählen Sie Ihre bevorzugte Sprache für die Benutzeroberfläche der Anwendung.",
@@ -38,7 +38,6 @@
     "education": "Verwalten Sie Ihre Bildungs- und akademischen Informationen.",
     "preferences": "Passen Sie Ihre Anwendungspräferenzen und Einstellungen an.",
     "teamerInfo": "Verwalten Sie Ihre spezifischen Teamer-Informationen und Details.",
-    "upcomingEvents": "Sehen Sie Veranstaltungen, die für die Zukunft geplant sind.",
     "currentEvents": "Sehen Sie aktuell laufende Veranstaltungen.",
     "pastEvents": "Sehen Sie Veranstaltungen, die bereits stattgefunden haben.",
     "currentApplications": "Sehen und verwalten Sie Ihre aktiven Bewerbungen.",
