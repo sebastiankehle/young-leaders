@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ServerTime } from "@/components/ui/server-time";
 
 // Map URL segments to dictionary keys
 const segmentToKeyMap: Record<string, string> = {
@@ -127,8 +128,13 @@ export function SiteHeader({ lang = "en", dict }: SiteHeaderProps) {
             />
           </div>
 
-          {/* Right side icons */}
+          {/* Right side icons with server time */}
           <div className="flex items-center gap-3">
+            <ServerTime lang={lang} />
+            <Separator
+              orientation="vertical"
+              className="mx-2 data-[orientation=vertical]:h-4"
+            />
             <Link
               href="https://young-leaders.net"
               target="_blank"
@@ -192,8 +198,13 @@ export function SiteHeader({ lang = "en", dict }: SiteHeaderProps) {
           </nav>
         </div>
 
-        {/* Right side icons */}
+        {/* Right side icons with server time */}
         <div className="flex items-center gap-3">
+          <ServerTime lang={lang} />
+          <Separator
+            orientation="vertical"
+            className="mx-2 data-[orientation=vertical]:h-4"
+          />
           <Link
             href="https://young-leaders.net"
             target="_blank"
