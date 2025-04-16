@@ -7,7 +7,6 @@ import {
   IconSettings,
   IconUser,
   IconCalendar,
-  IconList,
   IconPaint,
   IconClock,
   IconClipboardList,
@@ -23,6 +22,9 @@ import {
   IconPlus,
   IconChartBar,
   IconSwitch3,
+  IconLanguage,
+  IconFileCheck,
+  IconArchive,
   type Icon,
 } from "@tabler/icons-react";
 import { Locale } from "@/app/[lang]/dictionaries";
@@ -93,12 +95,12 @@ const navigationStructure: {
         {
           key: "currentApplications",
           url: "/applications/current-applications",
-          icon: IconList,
+          icon: IconFileCheck,
         },
         {
           key: "pastApplications",
           url: "/applications/past-applications",
-          icon: IconList,
+          icon: IconArchive,
         },
       ],
     },
@@ -169,7 +171,7 @@ const navigationStructure: {
         {
           key: "language",
           url: "/settings/language",
-          icon: IconList,
+          icon: IconLanguage,
         },
       ],
     },
