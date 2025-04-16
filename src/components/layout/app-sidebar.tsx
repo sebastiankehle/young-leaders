@@ -34,13 +34,14 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import { UserRole } from "@/lib/auth/roles";
 
 // Define type for navigation item
 type NavStructureItem = {
   key: string;
   url: string;
   icon: Icon;
-  requiredRole?: "teamer" | "user" | "admin";
+  requiredRole?: UserRole;
   children?: NavStructureItem[];
 };
 

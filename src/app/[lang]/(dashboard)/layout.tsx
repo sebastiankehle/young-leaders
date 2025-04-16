@@ -1,7 +1,9 @@
+import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/layout/app-sidebar";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { Locale, getDictionary } from "../dictionaries";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function DashboardLayout({
   children,
@@ -12,6 +14,14 @@ export default async function DashboardLayout({
 }>) {
   const { lang } = await params;
   const dict = await getDictionary(lang);
+
+  // Server-side authentication check for all dashboard routes
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data?.user) {
+    redirect(`/${lang}/auth/login`);
+  }
 
   return (
     <SidebarProvider
