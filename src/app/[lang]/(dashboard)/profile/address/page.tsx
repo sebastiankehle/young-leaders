@@ -20,7 +20,9 @@ export default async function AddressPage({
       <ProfileTabs lang={lang} dict={dict} userRole={userRole} />
 
       <div>
-        <p className="text-muted-foreground">{dict.pageDescriptions.address}</p>
+        <p className="text-muted-foreground text-sm">
+          {dict.pageDescriptions.address}
+        </p>
 
         {/* Address form would go here */}
         <div className="bg-card mt-6 rounded-lg border p-6">

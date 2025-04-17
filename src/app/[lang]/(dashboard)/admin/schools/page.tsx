@@ -14,8 +14,8 @@ export default async function AdminSchoolsPage({
 
   return (
     <>
-      <h1 className="text-xl font-bold">{dict.navigation.adminSchools}</h1>
-      <p className="text-muted-foreground">
+      <h1 className="mb-4 text-xl font-bold">{dict.navigation.adminSchools}</h1>
+      <p className="text-muted-foreground text-sm">
         {dict.pageDescriptions.adminSchools}
       </p>
     </>

@@ -11,8 +11,8 @@ export default async function ApplicationsPage({
 
   return (
     <>
-      <h1 className="text-xl font-bold">{dict.navigation.applications}</h1>
-      <p className="text-muted-foreground">
+      <h1 className="mb-4 text-xl font-bold">{dict.navigation.applications}</h1>
+      <p className="text-muted-foreground text-sm">
         {dict.pageDescriptions.applications}
       </p>
     </>

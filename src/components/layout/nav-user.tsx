@@ -116,7 +116,7 @@ export function NavUser({ user, dict, lang }: NavUserProps) {
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
-                <span className="text-muted-foreground truncate text-xs">
+                <span className="text-muted-foreground truncate text-sm text-xs">
                   {user.email}
                 </span>
               </div>
@@ -138,7 +138,7 @@ export function NavUser({ user, dict, lang }: NavUserProps) {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
-                  <span className="text-muted-foreground truncate text-xs">
+                  <span className="text-muted-foreground truncate text-sm text-xs">
                     {user.email}
                   </span>
                 </div>
@@ -168,14 +168,14 @@ export function NavUser({ user, dict, lang }: NavUserProps) {
               <span className="flex gap-2">
                 <span
                   onClick={() => changeLanguage("en")}
-                  className={`cursor-pointer ${currentLanguage === "en" ? "font-medium" : "text-muted-foreground"}`}
+                  className={`cursor-pointer ${currentLanguage === "en" ? "font-medium" : "text-muted-foreground text-sm"}`}
                 >
                   English
                 </span>
-                <span className="text-muted-foreground">|</span>
+                <span className="text-muted-foreground text-sm">|</span>
                 <span
                   onClick={() => changeLanguage("de")}
-                  className={`cursor-pointer ${currentLanguage === "de" ? "font-medium" : "text-muted-foreground"}`}
+                  className={`cursor-pointer ${currentLanguage === "de" ? "font-medium" : "text-muted-foreground text-sm"}`}
                 >
                   Deutsch
                 </span>

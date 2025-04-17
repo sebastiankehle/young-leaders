@@ -10,8 +10,10 @@ export default async function DashboardPage({
 
   return (
     <>
-      <h1 className="text-xl font-bold">{dict.navigation.dashboard}</h1>
-      <p className="text-muted-foreground">{dict.pageDescriptions.dashboard}</p>
+      <h1 className="mb-4 text-xl font-bold">{dict.navigation.dashboard}</h1>
+      <p className="text-muted-foreground text-sm">
+        {dict.pageDescriptions.dashboard}
+      </p>
     </>
   );
 }

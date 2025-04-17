@@ -20,7 +20,7 @@ export default async function EducationPage({
       <ProfileTabs lang={lang} dict={dict} userRole={userRole} />
 
       <div>
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground text-sm">
           {dict.pageDescriptions.education}
         </p>
 

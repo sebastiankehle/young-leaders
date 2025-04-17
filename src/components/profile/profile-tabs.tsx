@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Locale } from "@/app/[lang]/dictionaries";
 import { cn } from "@/lib/utils";
@@ -31,43 +31,47 @@ export function ProfileTabs({
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("personal");
 
-  // Define tab items with their paths and icons
-  const tabs = [
-    {
-      id: "personal",
-      label: dict.navigation.personalInfo || "Personal Information",
-      path: `/${lang}/profile/personal`,
-    },
-    {
-      id: "contact",
-      label: dict.navigation.contactDetails || "Contact Details",
-      path: `/${lang}/profile/contact`,
-    },
-    {
-      id: "address",
-      label: dict.navigation.address || "Address",
-      path: `/${lang}/profile/address`,
-    },
-    {
-      id: "education",
-      label: dict.navigation.education || "Education",
-      path: `/${lang}/profile/education`,
-    },
-    {
-      id: "preferences",
-      label: dict.navigation.preferences || "Preferences",
-      path: `/${lang}/profile/preferences`,
-    },
-  ];
+  // Define tab items with their paths and icons using useMemo to prevent recreating on every render
+  const tabs = useMemo(() => {
+    const baseTabsItems = [
+      {
+        id: "personal",
+        label: dict.navigation.personalInfo || "Personal Information",
+        path: `/${lang}/profile/personal`,
+      },
+      {
+        id: "contact",
+        label: dict.navigation.contactDetails || "Contact Details",
+        path: `/${lang}/profile/contact`,
+      },
+      {
+        id: "address",
+        label: dict.navigation.address || "Address",
+        path: `/${lang}/profile/address`,
+      },
+      {
+        id: "education",
+        label: dict.navigation.education || "Education",
+        path: `/${lang}/profile/education`,
+      },
+      {
+        id: "preferences",
+        label: dict.navigation.preferences || "Preferences",
+        path: `/${lang}/profile/preferences`,
+      },
+    ];
 
-  // Add teamer tab if user has teamer role
-  if (userRole === "teamer" || userRole === "admin") {
-    tabs.push({
-      id: "teamer",
-      label: dict.navigation.teamerInfo || "Teamer Information",
-      path: `/${lang}/profile/teamer`,
-    });
-  }
+    // Add teamer tab if user has teamer role
+    if (userRole === "teamer" || userRole === "admin") {
+      baseTabsItems.push({
+        id: "teamer",
+        label: dict.navigation.teamerInfo || "Teamer Information",
+        path: `/${lang}/profile/teamer`,
+      });
+    }
+
+    return baseTabsItems;
+  }, [lang, dict.navigation, userRole]);
 
   // Update active tab based on current URL
   useEffect(() => {
@@ -93,7 +97,7 @@ export function ProfileTabs({
   };
 
   return (
-    <div className="mb-8">
+    <>
       <h1 className="mb-4 text-xl font-bold">
         {dict.navigation.profile || "Profile"}
       </h1>
@@ -107,7 +111,9 @@ export function ProfileTabs({
                 onClick={() => handleTabChange(tab.id)}
                 className={cn(
                   "hover:text-foreground relative mr-6 py-2 text-sm font-medium transition-colors",
-                  isActive ? "text-foreground" : "text-muted-foreground",
+                  isActive
+                    ? "text-foreground"
+                    : "text-muted-foreground text-sm",
                 )}
               >
                 {tab.label}
@@ -119,6 +125,6 @@ export function ProfileTabs({
           })}
         </div>
       </div>
-    </div>
+    </>
   );
 }

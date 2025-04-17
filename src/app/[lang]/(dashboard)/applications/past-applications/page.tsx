@@ -11,10 +11,10 @@ export default async function PastApplicationsPage({
 
   return (
     <>
-      <h1 className="text-xl font-bold">
+      <h1 className="mb-4 text-xl font-bold">
         {dict.navigation.pastApplications || "Past Applications"}
       </h1>
-      <p className="text-muted-foreground">
+      <p className="text-muted-foreground text-sm">
         {dict.pageDescriptions.pastApplications}
       </p>
     </>

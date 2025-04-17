@@ -14,8 +14,8 @@ export default async function CreateEventPage({
 
   return (
     <>
-      <h1 className="text-xl font-bold">{dict.navigation.createEvent}</h1>
-      <p className="text-muted-foreground">
+      <h1 className="mb-4 text-xl font-bold">{dict.navigation.createEvent}</h1>
+      <p className="text-muted-foreground text-sm">
         {dict.pageDescriptions.createEvent}
       </p>
     </>

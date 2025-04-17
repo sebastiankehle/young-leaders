@@ -182,7 +182,7 @@ export function SiteHeader({ lang = "en", dict }: SiteHeaderProps) {
               {breadcrumbs.map((crumb, index) => (
                 <li key={crumb.path} className="flex items-center text-sm">
                   {index > 0 && (
-                    <IconChevronRight className="text-muted-foreground mx-1 size-3 shrink-0" />
+                    <IconChevronRight className="text-muted-foreground mx-1 size-3 shrink-0 text-sm" />
                   )}
                   <Link
                     href={crumb.path}
@@ -190,7 +190,7 @@ export function SiteHeader({ lang = "en", dict }: SiteHeaderProps) {
                       "hover:text-foreground transition-colors",
                       crumb.isCurrent
                         ? "text-foreground font-medium"
-                        : "text-muted-foreground",
+                        : "text-muted-foreground text-sm",
                     )}
                     aria-current={crumb.isCurrent ? "page" : undefined}
                   >
