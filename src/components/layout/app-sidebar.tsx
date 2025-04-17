@@ -142,7 +142,7 @@ const navigationStructure: {
           requiredRole: "teamer",
           children: [
             {
-              key: "bankingDetails",
+              key: "bankingInfo",
               url: "/profile/teamer/banking",
               icon: IconCreditCard,
               requiredRole: "teamer",

@@ -32,7 +32,7 @@ const segmentToKeyMap: Record<string, string> = {
   education: "education",
   preferences: "preferences",
   teamer: "teamerInfo",
-  banking: "bankingDetails",
+  banking: "bankingInfo",
   driver: "driverInfo",
   settings: "settings",
   appearance: "appearance",
