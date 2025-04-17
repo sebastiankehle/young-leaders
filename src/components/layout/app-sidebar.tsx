@@ -302,7 +302,7 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
+              className="hover:!bg-transparent data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href={lang ? `/${lang}/dashboard` : "/dashboard"}>
                 <Image
