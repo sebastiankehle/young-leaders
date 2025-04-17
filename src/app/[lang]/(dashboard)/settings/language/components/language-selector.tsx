@@ -1,14 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useRouter, usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 // Using the type locally to avoid duplicate imports
 type LocaleType = "en" | "de";
@@ -34,47 +28,27 @@ export function LanguageSelector({ currentLang }: { currentLang: LocaleType }) {
     return null;
   }
 
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Language</CardTitle>
-        <CardDescription>
-          Choose your preferred language for the application.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div
-            className={`hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center rounded-md border-2 p-4 ${
-              currentLang === "en" ? "border-primary" : "border-muted"
-            }`}
-            onClick={() => setLanguage("en")}
-          >
-            <div className="mr-3 flex h-10 w-10 items-center justify-center overflow-hidden rounded-md border">
-              <span className="text-lg font-bold">🇬🇧</span>
-            </div>
-            <div>
-              <div className="font-medium">English</div>
-              <div className="text-muted-foreground text-xs">English</div>
-            </div>
-          </div>
+  const languages = [
+    { code: "en", name: "English", flag: "🇬🇧" },
+    { code: "de", name: "Deutsch", flag: "🇩🇪" },
+  ];
 
-          <div
-            className={`hover:bg-accent hover:text-accent-foreground flex cursor-pointer items-center rounded-md border-2 p-4 ${
-              currentLang === "de" ? "border-primary" : "border-muted"
-            }`}
-            onClick={() => setLanguage("de")}
+  return (
+    <div className="mt-4">
+      <h2 className="mb-3 text-lg font-medium">Select Language</h2>
+      <div className="flex flex-wrap gap-2">
+        {languages.map((lang) => (
+          <Button
+            key={lang.code}
+            variant={currentLang === lang.code ? "default" : "outline"}
+            onClick={() => setLanguage(lang.code as LocaleType)}
+            className="flex items-center gap-2"
           >
-            <div className="mr-3 flex h-10 w-10 items-center justify-center overflow-hidden rounded-md border">
-              <span className="text-lg font-bold">🇩🇪</span>
-            </div>
-            <div>
-              <div className="font-medium">Deutsch</div>
-              <div className="text-muted-foreground text-xs">German</div>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
+            <span className="text-base">{lang.flag}</span>
+            <span>{lang.name}</span>
+          </Button>
+        ))}
+      </div>
+    </div>
   );
 }
