@@ -143,7 +143,7 @@ const navigationStructure: {
       ],
     },
     {
-      key: "adminSchools",
+      key: "schools",
       url: "/admin/schools",
       icon: IconBuildingSkyscraper,
       requiredRole: "admin",
@@ -190,7 +190,7 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
       createEvent?: string;
       manageEvents?: string;
       eventAnalytics?: string;
-      adminSchools?: string;
+      schools?: string;
       manageSchools?: string;
       adminApplications?: string;
       manageApplications?: string;
