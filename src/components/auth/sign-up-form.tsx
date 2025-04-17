@@ -80,9 +80,7 @@ export function SignUpForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">
-            {dict.sign_up || "Sign up"}
-          </CardTitle>
+          <CardTitle className="text-xl">{dict.sign_up || "Sign up"}</CardTitle>
           <CardDescription>
             {dict.sign_up_title || "Create a new account"}
           </CardDescription>

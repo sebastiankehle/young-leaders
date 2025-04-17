@@ -14,8 +14,8 @@ export default async function AdminEventsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">{dict.navigation.adminEvents}</h1>
-      <p className="text-muted-foreground mt-4">
+      <h1 className="text-xl font-bold">{dict.navigation.adminEvents}</h1>
+      <p className="text-muted-foreground">
         {dict.pageDescriptions.adminEvents}
       </p>
     </>

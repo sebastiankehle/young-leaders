@@ -1,7 +1,7 @@
 import { Locale, getDictionary } from "@/app/[lang]/dictionaries";
 import { requireRole } from "@/lib/auth/server";
 
-export default async function ManageSchoolsPage({
+export default async function ManageApplicationsPage({
   params,
 }: {
   params: Promise<{ lang: Locale }>;
@@ -14,9 +14,11 @@ export default async function ManageSchoolsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">{dict.navigation.manageSchools}</h1>
-      <p className="text-muted-foreground mt-4">
-        {dict.pageDescriptions.manageSchools}
+      <h1 className="text-xl font-bold">
+        {dict.navigation.manageApplications}
+      </h1>
+      <p className="text-muted-foreground">
+        {dict.pageDescriptions.manageApplications}
       </p>
     </>
   );

@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 import { Locale } from "@/app/[lang]/dictionaries";
 import { createClient } from "@/lib/supabase/server";
+import { requireRole } from "@/lib/auth/server";
 
-export default async function ProfilePage({
+export default async function AdminPage({
   params,
 }: {
   params: Promise<{ lang: Locale }>;
@@ -13,10 +14,13 @@ export default async function ProfilePage({
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
 
+  // Require admin role to access this page
+  await requireRole("admin");
+
   if (error || !data?.user) {
     redirect(`/${lang}/auth/login`);
   }
 
-  // Redirect to personal info page as the default subpage
-  redirect(`/${lang}/profile/personal`);
+  // Redirect to dashboard page
+  redirect(`/${lang}/dashboard`);
 }

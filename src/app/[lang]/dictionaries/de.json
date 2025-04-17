@@ -23,7 +23,7 @@
     "mainNavigation": "Willkommen",
     "userNavigation": "Benutzer",
     "generalSettings": "Allgemeine Einstellungen",
-    "adminSection": "Admin",
+    "adminNavigation": "Admin",
     "adminView": "Adminansicht",
     "userView": "Benutzeransicht",
     "adminEvents": "Veranstaltungen",
@@ -34,7 +34,9 @@
     "manageSchools": "Schulen verwalten",
     "adminApplications": "Bewerbungen",
     "manageApplications": "Bewerbungen verwalten",
-    "compareApplications": "Bewerbungen vergleichen"
+    "compareApplications": "Bewerbungen vergleichen",
+    "darkMode": "Dunkles Schema",
+    "lightMode": "Helles Schema"
   },
   "pageDescriptions": {
     "dashboard": "Willkommen auf Ihrem Dashboard. Hier können Sie Ihr Konto verwalten und Ihre Aktivitäten einsehen.",

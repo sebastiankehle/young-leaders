@@ -68,7 +68,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">{dict.login || "Login"}</CardTitle>
+          <CardTitle className="text-xl">{dict.login || "Login"}</CardTitle>
           <CardDescription>
             {dict.login_title ||
               "Enter your email below to login to your account"}

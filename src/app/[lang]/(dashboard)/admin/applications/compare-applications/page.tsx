@@ -14,10 +14,10 @@ export default async function CompareApplicationsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">
+      <h1 className="text-xl font-bold">
         {dict.navigation.compareApplications}
       </h1>
-      <p className="text-muted-foreground mt-4">
+      <p className="text-muted-foreground">
         {dict.pageDescriptions.compareApplications}
       </p>
     </>

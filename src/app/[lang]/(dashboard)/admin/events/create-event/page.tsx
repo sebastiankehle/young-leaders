@@ -1,7 +1,7 @@
 import { Locale, getDictionary } from "@/app/[lang]/dictionaries";
 import { requireRole } from "@/lib/auth/server";
 
-export default async function ManageApplicationsPage({
+export default async function CreateEventPage({
   params,
 }: {
   params: Promise<{ lang: Locale }>;
@@ -14,11 +14,9 @@ export default async function ManageApplicationsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">
-        {dict.navigation.manageApplications}
-      </h1>
-      <p className="text-muted-foreground mt-4">
-        {dict.pageDescriptions.manageApplications}
+      <h1 className="text-xl font-bold">{dict.navigation.createEvent}</h1>
+      <p className="text-muted-foreground">
+        {dict.pageDescriptions.createEvent}
       </p>
     </>
   );

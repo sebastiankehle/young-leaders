@@ -11,10 +11,8 @@ export default async function EventsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">{dict.navigation.events}</h1>
-      <p className="text-muted-foreground mt-4">
-        {dict.pageDescriptions.events}
-      </p>
+      <h1 className="text-xl font-bold">{dict.navigation.events}</h1>
+      <p className="text-muted-foreground">{dict.pageDescriptions.events}</p>
     </>
   );
 }

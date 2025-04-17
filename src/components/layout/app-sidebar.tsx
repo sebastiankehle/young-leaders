@@ -4,25 +4,15 @@ import React from "react";
 import {
   IconCalendarEvent,
   IconDashboard,
-  IconSettings,
-  IconUser,
   IconCalendar,
-  IconPaint,
   IconClock,
   IconClipboardList,
-  IconPhoneCall,
-  IconMapPin,
-  IconSchool,
-  IconId,
-  IconCreditCard,
-  IconCar,
   IconBuildingSkyscraper,
   IconAnalyze,
   IconClipboardData,
   IconPlus,
   IconChartBar,
   IconSwitch3,
-  IconLanguage,
   IconFileCheck,
   IconArchive,
   type Icon,
@@ -57,7 +47,6 @@ type NavStructureItem = {
 // Define navigation structure once
 const navigationStructure: {
   navDashboard: NavStructureItem[];
-  navMain: NavStructureItem[];
   navUser: NavStructureItem[];
   navAdmin: NavStructureItem[];
 } = {
@@ -68,7 +57,7 @@ const navigationStructure: {
       icon: IconDashboard,
     },
   ],
-  navMain: [
+  navUser: [
     {
       key: "events",
       url: "/events",
@@ -104,77 +93,7 @@ const navigationStructure: {
       ],
     },
   ],
-  navUser: [
-    {
-      key: "profile",
-      url: "/profile",
-      icon: IconUser,
-      children: [
-        {
-          key: "personalInfo",
-          url: "/profile/personal",
-          icon: IconUser,
-        },
-        {
-          key: "contactDetails",
-          url: "/profile/contact",
-          icon: IconPhoneCall,
-        },
-        {
-          key: "address",
-          url: "/profile/address",
-          icon: IconMapPin,
-        },
-        {
-          key: "education",
-          url: "/profile/education",
-          icon: IconSchool,
-        },
-        {
-          key: "preferences",
-          url: "/profile/preferences",
-          icon: IconSettings,
-        },
-        {
-          key: "teamerInfo",
-          url: "/profile/teamer",
-          icon: IconId,
-          requiredRole: "teamer",
-          children: [
-            {
-              key: "bankingInfo",
-              url: "/profile/teamer/banking",
-              icon: IconCreditCard,
-              requiredRole: "teamer",
-            },
-            {
-              key: "driverInfo",
-              url: "/profile/teamer/driver",
-              icon: IconCar,
-              requiredRole: "teamer",
-            },
-          ],
-        },
-      ],
-    },
-    {
-      key: "settings",
-      url: "/settings",
-      icon: IconSettings,
-      children: [
-        {
-          key: "appearance",
-          url: "/settings/appearance",
-          icon: IconPaint,
-        },
-        {
-          key: "language",
-          url: "/settings/language",
-          icon: IconLanguage,
-        },
-      ],
-    },
-  ],
+
   navAdmin: [
     {
       key: "adminEvents",
@@ -184,13 +103,13 @@ const navigationStructure: {
       children: [
         {
           key: "createEvent",
-          url: "/admin/events/create",
+          url: "/admin/events/create-event",
           icon: IconPlus,
           requiredRole: "admin",
         },
         {
           key: "manageEvents",
-          url: "/admin/events/manage",
+          url: "/admin/events/manage-events",
           icon: IconClipboardData,
           requiredRole: "admin",
         },
@@ -211,13 +130,13 @@ const navigationStructure: {
       children: [
         {
           key: "manageApplications",
-          url: "/admin/applications/manage",
+          url: "/admin/applications/manage-applications",
           icon: IconClipboardData,
           requiredRole: "admin",
         },
         {
           key: "compareApplications",
-          url: "/admin/applications/compare",
+          url: "/admin/applications/compare-applications",
           icon: IconAnalyze,
           requiredRole: "admin",
         },
@@ -231,7 +150,7 @@ const navigationStructure: {
       children: [
         {
           key: "manageSchools",
-          url: "/admin/schools/manage",
+          url: "/admin/schools/manage-schools",
           icon: IconClipboardData,
           requiredRole: "admin",
         },
@@ -277,11 +196,12 @@ interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
       manageApplications?: string;
       compareApplications?: string;
       // Group labels
-      mainNavigation?: string;
-      userSettings?: string;
-      adminSection?: string;
+      userNavigation?: string;
+      adminNavigation?: string;
       adminView?: string;
       userView?: string;
+      darkMode?: string;
+      lightMode?: string;
       [key: string]: string | undefined;
     };
     user?: {
@@ -350,18 +270,26 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
     dict,
     lang,
   );
-  const navMain = transformNavItems(navigationStructure.navMain, dict, lang);
   const navUser = transformNavItems(navigationStructure.navUser, dict, lang);
   const navAdmin = transformNavItems(navigationStructure.navAdmin, dict, lang);
 
   // Get translated group labels or use defaults
   const mainNavigationLabel = dict?.navigation.mainNavigation || "Welcome";
   const userNavigationLabel = dict?.navigation.userNavigation || "User";
-  const adminSectionLabel = dict?.navigation.adminSection || "Admin";
-  const userSettingsLabel =
-    dict?.navigation.generalSettings || "General Settings";
+  const adminNavigationLabel = dict?.navigation.adminNavigation || "Admin";
   const adminViewLabel = dict?.navigation.adminView || "Admin View";
   const userViewLabel = dict?.navigation.userView || "User View";
+
+  // Create user dictionary with additional terms for the dropdown
+  const userDict = {
+    account: dict?.user?.account || "Account",
+    logout: dict?.user?.logout || "Log out",
+    profile: dict?.navigation.profile || "Profile",
+    theme: dict?.navigation.theme || "Theme",
+    language: dict?.navigation.language || "Language",
+    darkMode: dict?.navigation.darkMode || "Dark Mode",
+    lightMode: dict?.navigation.lightMode || "Light Mode",
+  };
 
   const isAdmin = userData.role === "admin";
 
@@ -396,14 +324,11 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
 
         {/* Main navigation or Admin navigation based on view */}
         {(!isAdminView || !isAdmin) && (
-          <NavGroup items={navMain} label={userNavigationLabel} />
+          <NavGroup items={navUser} label={userNavigationLabel} />
         )}
         {isAdminView && isAdmin && (
-          <NavGroup items={navAdmin} label={adminSectionLabel} />
+          <NavGroup items={navAdmin} label={adminNavigationLabel} />
         )}
-
-        {/* User settings always shown */}
-        <NavGroup items={navUser} label={userSettingsLabel} />
       </SidebarContent>
       <SidebarFooter className="flex flex-col">
         {isAdmin && (
@@ -428,7 +353,7 @@ export function AppSidebar({ dict, lang = "en", ...props }: AppSidebarProps) {
             </SidebarMenuItem>
           </SidebarMenu>
         )}
-        <NavUser user={userData} dict={dict?.user} lang={lang} />
+        <NavUser user={userData} dict={userDict} lang={lang} />
       </SidebarFooter>
     </Sidebar>
   );

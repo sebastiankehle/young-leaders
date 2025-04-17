@@ -23,7 +23,7 @@
     "mainNavigation": "Welcome",
     "userNavigation": "User",
     "generalSettings": "General Settings",
-    "adminSection": "Admin",
+    "adminNavigation": "Admin",
     "adminView": "Admin View",
     "userView": "User View",
     "adminEvents": "Events",
@@ -34,7 +34,9 @@
     "manageSchools": "Manage Schools",
     "adminApplications": "Applications",
     "manageApplications": "Manage Applications",
-    "compareApplications": "Compare Applications"
+    "compareApplications": "Compare Applications",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode"
   },
   "pageDescriptions": {
     "dashboard": "Welcome to your dashboard. Here you can manage your account and view your activity.",

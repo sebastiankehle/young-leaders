@@ -67,7 +67,7 @@ export function ForgotPasswordForm({
       {success ? (
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">
+            <CardTitle className="text-xl">
               {dict.check_email || "Check Your Email"}
             </CardTitle>
             <CardDescription>
@@ -84,7 +84,7 @@ export function ForgotPasswordForm({
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">
+            <CardTitle className="text-xl">
               {dict.reset_password || "Reset Your Password"}
             </CardTitle>
             <CardDescription>

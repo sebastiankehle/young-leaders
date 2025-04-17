@@ -11,10 +11,10 @@ export default async function PastEventsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">
+      <h1 className="text-xl font-bold">
         {dict.navigation.pastEvents || "Past Events"}
       </h1>
-      <p className="text-muted-foreground mt-4">
+      <p className="text-muted-foreground">
         {dict.pageDescriptions.pastEvents}
       </p>
     </>

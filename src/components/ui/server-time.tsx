@@ -45,7 +45,7 @@ export function ServerTime({ lang }: ServerTimeProps) {
         return true;
       } catch (error) {
         console.error("Error fetching time:", error);
-        setTime("Error");
+        setTime("");
         return false;
       }
     };

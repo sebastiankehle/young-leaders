@@ -53,24 +53,3 @@ export async function getCurrentUser(): Promise<UserWithRole | null> {
     role: (userRole?.role as UserRole) || "user",
   };
 }
-
-/**
- * Client-side function to check if the current user has the required role
- */
-export async function hasRequiredRole(role: UserRole): Promise<boolean> {
-  const user = await getCurrentUser();
-  if (!user) return false;
-
-  const userRole = user.role || "user";
-
-  switch (role) {
-    case "user":
-      return true;
-    case "teamer":
-      return userRole === "teamer" || userRole === "admin";
-    case "admin":
-      return userRole === "admin";
-    default:
-      return false;
-  }
-}

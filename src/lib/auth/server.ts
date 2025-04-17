@@ -57,7 +57,7 @@ export async function requireRole(
   }
 
   if (!hasAccess) {
-    redirect("/dashboard"); // Redirect to dashboard if user doesn't have access
+    redirect("/"); // Redirect to dashboard if user doesn't have access
   }
 
   return user;

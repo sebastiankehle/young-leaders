@@ -14,8 +14,8 @@ export default async function EventAnalyticsPage({
 
   return (
     <>
-      <h1 className="text-2xl font-bold">{dict.navigation.eventAnalytics}</h1>
-      <p className="text-muted-foreground mt-4">
+      <h1 className="text-xl font-bold">{dict.navigation.eventAnalytics}</h1>
+      <p className="text-muted-foreground">
         {dict.pageDescriptions.eventAnalytics}
       </p>
     </>

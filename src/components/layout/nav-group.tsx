@@ -112,8 +112,17 @@ function SubmenuItem({
     }
   }, [pathname, isAnyChildActive, isOpen]);
 
-  const handleItemClick = () => {
+  const handleItemClick = (e: React.MouseEvent) => {
+    // Prevent click from being handled by parent elements
+    e.stopPropagation();
     router.push(item.url);
+  };
+
+  const handleToggleClick = (e: React.MouseEvent) => {
+    // Prevent navigation and parent click handlers
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOpen(!isOpen);
   };
 
   // Filter children based on their requiredRole property
@@ -149,11 +158,7 @@ function SubmenuItem({
         </div>
         <div
           className="flex cursor-pointer items-center p-1"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsOpen(!isOpen);
-          }}
+          onClick={handleToggleClick}
         >
           <IconChevronDown
             className={cn(
@@ -221,8 +226,17 @@ function NestedSubmenuItem({
     }
   }, [pathname, isAnyChildActive, isOpen]);
 
-  const handleItemClick = () => {
+  const handleItemClick = (e: React.MouseEvent) => {
+    // Prevent click from being handled by parent elements
+    e.stopPropagation();
     router.push(item.url);
+  };
+
+  const handleToggleClick = (e: React.MouseEvent) => {
+    // Prevent navigation and parent click handlers
+    e.preventDefault();
+    e.stopPropagation();
+    setIsOpen(!isOpen);
   };
 
   // Filter children based on their requiredRole property
@@ -245,19 +259,14 @@ function NestedSubmenuItem({
           (isItemActive || isAnyChildActive) &&
             "bg-accent text-accent-foreground font-medium",
         )}
-        onClick={handleItemClick}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2" onClick={handleItemClick}>
           {item.icon && <item.icon className="size-3.5" />}
           <span>{item.title}</span>
         </div>
         <div
           className="flex cursor-pointer items-center"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsOpen(!isOpen);
-          }}
+          onClick={handleToggleClick}
         >
           <IconChevronDown
             className={cn(
