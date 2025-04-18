@@ -1,31 +1,31 @@
-// Define constants for role types (as alternative to enums)
+// Define constants for role types
 export const ROLE_TYPES = {
   USER: "user" as const,
   TEAMER: "teamer" as const,
   ADMIN: "admin" as const,
 };
 
-// Define constants for event status types (as alternative to enums)
+// Define constants for event status types
 export const EVENT_STATUS = {
   ACTIVE: "ACTIVE" as const,
   INACTIVE: "INACTIVE" as const,
 };
 
-// Define constants for team application status (as alternative to enums)
+// Define constants for team application status
 export const TEAM_APPLICATION_STATUS = {
   NOT_OPEN: "NOT_OPEN" as const,
   OPTIONAL: "OPTIONAL" as const,
   REQUIRED: "REQUIRED" as const,
 };
 
-// Define constants for application status (as alternative to enums)
+// Define constants for application status
 export const APPLICATION_STATUS = {
   PENDING: "PENDING" as const,
   APPROVED: "APPROVED" as const,
   REJECTED: "REJECTED" as const,
 };
 
-// Define constants for question types (as alternative to enums)
+// Define constants for question types
 export const QUESTION_TYPE = {
   TEXT: "text" as const,
   MULTIPLE_CHOICE: "multipleChoice" as const,

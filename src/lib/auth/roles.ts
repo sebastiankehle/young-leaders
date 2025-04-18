@@ -1,6 +1,5 @@
 import { Session, User } from "@supabase/supabase-js";
-
-export type UserRole = "user" | "teamer" | "admin";
+import { UserRole } from "@/lib/types";
 
 export interface UserWithRole extends User {
   role?: UserRole;

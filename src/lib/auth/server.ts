@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { UserRole, UserWithRole } from "./roles";
+import { UserWithRole } from "./roles";
 import { redirect } from "next/navigation";
+import { UserRole } from "../types";
 
 /**
  * Gets the current user with their role from the database

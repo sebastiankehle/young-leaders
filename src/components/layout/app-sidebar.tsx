@@ -32,7 +32,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
-import { UserRole } from "@/lib/auth/roles";
+import { UserRole } from "@/lib/types";
 import { getCurrentUser } from "@/lib/auth/client";
 
 // Define type for navigation item

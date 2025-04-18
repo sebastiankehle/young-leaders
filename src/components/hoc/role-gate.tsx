@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { UserRole, UserWithRole, hasRole } from "@/lib/auth/roles";
+import { UserWithRole, hasRole } from "@/lib/auth/roles";
+import { UserRole } from "@/lib/types";
 
 interface RoleGateProps {
   /**

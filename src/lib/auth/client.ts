@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
-import { UserRole, UserWithRole } from "./roles";
+import { UserWithRole } from "./roles";
+import { UserRole } from "@/lib/types";
 import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
