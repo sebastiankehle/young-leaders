@@ -33,7 +33,7 @@ This document outlines the database schema for migrating from NestJS to Supabase
   - emergencyContactName (string) <!-- Frontend: Text input -->
   - emergencyContactNumberCountryCode (string) <!-- Frontend: Country code dropdown -->
   - emergencyContactNumber (string) <!-- Frontend: Phone input with formatting -->
-  - engagement (JSON array of objects) <!-- Frontend: Multi-select checkboxes or chips with custom UI -->
+  - engagement (string) <!-- Frontend: Textarea -->
   - foodPreference (string) <!-- Frontend: Radio buttons or dropdown (Vegetarian, Vegan, etc.) -->
   - allergies (string[]) <!-- Frontend: Multi-select dropdown with common options + custom input -->
   - bahnCard (string) <!-- Frontend: Dropdown with BahnCard options (25, 50, 100, None) -->
@@ -83,7 +83,7 @@ This document outlines the database schema for migrating from NestJS to Supabase
 
 - **Primary Key**: id (UUID)
 - **Fields**:
-  - engagement (JSON array of objects) <!-- Frontend: Multi-select checkboxes or chips with custom UI -->
+  - engagement (string) <!-- Frontend: Textarea -->
   - bahnCard (string) <!-- Frontend: Dropdown with BahnCard options (25, 50, 100, None) -->
   - departureStation (string) <!-- Frontend: Text input with station autocomplete -->
   - skills (JSON array of objects) <!-- Frontend: Multi-select with skill categories and levels -->

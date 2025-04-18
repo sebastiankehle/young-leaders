@@ -1,4 +1,4 @@
-import { UpdatePasswordForm } from "@/components/auth/update-password-form";
+import { UpdatePasswordForm } from "@/components/forms/update-password-form";
 import { Locale, getDictionary } from "../../dictionaries";
 
 export default async function Page({

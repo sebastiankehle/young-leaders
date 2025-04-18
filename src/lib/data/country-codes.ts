@@ -1,9 +1,9 @@
-export interface CountryCode {
+export type CountryCode = {
   value: string;
   label: string;
   flag: string;
   countryCode: string;
-}
+};
 
 export const countryCodes: CountryCode[] = [
   { value: "+49", label: "Deutschland (+49)", flag: "🇩🇪", countryCode: "DE" },

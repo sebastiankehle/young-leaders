@@ -1,6 +1,6 @@
 import { getDictionary } from "@/app/[lang]/dictionaries";
 import { Locale } from "@/app/[lang]/dictionaries";
-import { ProfileTabs } from "@/components/profile/profile-tabs";
+import { ProfileTabs } from "@/components/tabs/profile-tabs";
 import { getCurrentUser } from "@/lib/auth/server";
 
 export default async function PersonalInfoPage({

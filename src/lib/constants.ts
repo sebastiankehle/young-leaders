@@ -1,10 +1,3 @@
-/**
- * Export all types from a single location
- */
-
-// Re-export schema validation types
-export * from "./schema";
-
 // Define constants for role types (as alternative to enums)
 export const ROLE_TYPES = {
   USER: "user" as const,
@@ -105,10 +98,4 @@ export const GRADE = {
 export const TITLE = {
   MR: "Mr" as const,
   MRS: "Mrs" as const,
-};
-
-// Define type for Engagement
-export type Engagement = {
-  title: string;
-  description: string;
 };

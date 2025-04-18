@@ -1,4 +1,4 @@
-import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
+import { ForgotPasswordForm } from "@/components/forms/forgot-password-form";
 import { Locale, getDictionary } from "../../dictionaries";
 
 export default async function Page({

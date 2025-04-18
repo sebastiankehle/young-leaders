@@ -1,4 +1,4 @@
-import { LoginForm } from "@/components/auth/login-form";
+import { LoginForm } from "@/components/forms/login-form";
 import { Locale, getDictionary } from "../../dictionaries";
 
 export default async function Page({
